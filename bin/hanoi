@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'hanoi/jane/cli'
+Hanoi::Jane::CLI.start
