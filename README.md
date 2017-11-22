@@ -1,41 +1,38 @@
-# Hanoi::Jane
+[![Build Status](http://img.shields.io/travis/pikesley/hanoi-jane.svg?style=flat-square)](https://travis-ci.org/pikesley/hanoi-jane)
+[![Dependency Status](http://img.shields.io/gemnasium/pikesley/hanoi-jane.svg?style=flat-square)](https://gemnasium.com/pikesley/hanoi-jane)
+[![Coverage Status](http://img.shields.io/coveralls/pikesley/hanoi-jane.svg?style=flat-square)](https://coveralls.io/r/pikesley/hanoi-jane)
+[![Code Climate](http://img.shields.io/codeclimate/github/pikesley/hanoi-jane.svg?style=flat-square)](https://codeclimate.com/github/pikesley/hanoi-jane)
+[![Gem Version](http://img.shields.io/gem/v/hanoi-jane.svg?style=flat-square)](https://rubygems.org/gems/hanoi-jane)
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://pikesley.mit-license.org)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hanoi/jane`. To experiment with that code, run `bin/console` for an interactive prompt.
+# Hanoi Jane
 
-TODO: Delete this and the text above, and describe your gem
+_Counting in binary to solve the Towers of Hanoi_
 
-## Installation
+## Surely there are easier ways to do this?
 
-Add this line to your application's Gemfile:
+Yes, there are. This is very much a Solved Problem. However, I was inspired to implement this solution after watching [3 Blue 1 Brown](https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw)'s [fascinating video](https://www.youtube.com/watch?v=2SUvWfNJSsM), in which Grant relates the Towers Of Hanoi to the Rhythm Of Counting In Binary:
 
-```ruby
-gem 'hanoi-jane'
-```
+[![Screenshot](https://i.imgur.com/mXsl57y.png)](https://www.youtube.com/watch?v=2SUvWfNJSsM)
 
-And then execute:
+## Running it
 
-    $ bundle
+    bundle
+    bundle exec rake
+    bundle exec ./bin/hanoi console
 
-Or install it yourself as:
+## Constrained version
 
-    $ gem install hanoi-jane
+There is a [constrained variant of the problem](https://www.youtube.com/watch?v=bdMfjfT0lKk), with the restriction that a disc may only move to an adjacent stack. I've also implemented the solution for this (which maps to the Rhythm Of Counting In Ternary) - you can run this with
 
-## Usage
+    hanoi --constrained
 
-TODO: Write usage instructions here
+## pHAT
 
-## Development
+In order to over-engineer this, I've wrapped a [very thin Flask app](https://github.com/pikesley/pHAT-REST) around the [MicroDot pHAT](https://shop.pimoroni.com/products/microdot-phat). Try
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+    hanoi phat --phat <address_of_your_pi> --constrained
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+to watch this all play out on the pHAT:
 
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/pikesley/hanoi-jane. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+<blockquote class="instagram-media" data-instgrm-version="7" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAMUExURczMzPf399fX1+bm5mzY9AMAAADiSURBVDjLvZXbEsMgCES5/P8/t9FuRVCRmU73JWlzosgSIIZURCjo/ad+EQJJB4Hv8BFt+IDpQoCx1wjOSBFhh2XssxEIYn3ulI/6MNReE07UIWJEv8UEOWDS88LY97kqyTliJKKtuYBbruAyVh5wOHiXmpi5we58Ek028czwyuQdLKPG1Bkb4NnM+VeAnfHqn1k4+GPT6uGQcvu2h2OVuIf/gWUFyy8OWEpdyZSa3aVCqpVoVvzZZ2VTnn2wU8qzVjDDetO90GSy9mVLqtgYSy231MxrY6I2gGqjrTY0L8fxCxfCBbhWrsYYAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/Bbrs3diAw1B/" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Sam (@pikesley)</a> on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2017-11-19T16:04:50+00:00">Nov 19, 2017 at 8:04am PST</time></p></div></blockquote> <script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
