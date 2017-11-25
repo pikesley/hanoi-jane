@@ -3,11 +3,11 @@ module Hanoi
     class Towers
       include Enumerable
 
-      attr_reader :count, :stacks
+      attr_reader :total, :stacks
 
       def initialize discs
         @discs = discs
-        @count = 0
+        @total = 0
         @base = 2
         @stacks = [(0...discs).to_a.reverse, [], []]
       end
@@ -29,15 +29,18 @@ module Hanoi
       def inspect
         {
           stacks: @stacks,
-          count: rebased
+          moves: @total,
+          binary: rebased,
+          flipped: @disc
         }
       end
 
       def each
-        #unless solved
+        yield self if @total == 0
+        until solved
           move
           yield self
-        #end
+        end
       end
 
       def to_s
@@ -56,7 +59,7 @@ module Hanoi
       end
 
       def rebased
-        Towers.rebase @count, @base, @discs
+        Towers.rebase @total, @base, @discs
       end
 
       private
@@ -84,7 +87,7 @@ module Hanoi
 
       def diff
         this = binary
-        @count += 1
+        @total += 1
         that = binary
         this.chars.reverse.each_with_index do |bit, index|
           if bit < that.chars.reverse[index]

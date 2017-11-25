@@ -20,12 +20,10 @@ module Hanoi
           towers = ConstrainedTowers.new 5
         end
 
-        until towers.solved do
+        towers.each do |state|
           Hanoi::Jane.hit_phat towers, options[:phat]
-          towers.move
           sleep options[:interval]
         end
-        Hanoi::Jane.hit_phat towers, options[:phat]
       end
 
       desc 'console', "Solve the towers one the console"
@@ -36,13 +34,12 @@ module Hanoi
         if options[:constrained]
           towers = ConstrainedTowers.new options[:discs]
         end
-        until towers.solved do
-          puts towers
-          towers.move
-        end
-        puts towers
 
-        puts "%d moves to solve for %d discs" % [towers.count, options[:discs]]
+        towers.each do |state|
+          puts state
+        end
+
+        puts "%d moves to solve for %d discs" % [towers.total, options[:discs]]
       end
     end
   end

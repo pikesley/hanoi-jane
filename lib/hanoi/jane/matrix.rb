@@ -11,13 +11,13 @@ module Hanoi
 
         offset = 0
         @stacks.each do |stack|
-          count = 0
+          total = 0
           stack.each do |disc|
             shim = ((5 - (disc + 1)) / 2).round
             (disc + 1).times do |i|
-              self[6 - count][i + offset + shim] = 1
+              self[6 - total][i + offset + shim] = 1
             end
-            count += 1
+            total += 1
           end
           offset += 8
         end

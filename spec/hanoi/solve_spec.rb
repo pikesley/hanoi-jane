@@ -14,7 +14,7 @@ module Hanoi
               end
             end
             expect(towers.stacks[2 - (discs % 2)]).to eq goal
-            expect(towers.count).to eq (2 ** discs) - 1
+            expect(towers.total).to eq (2 ** discs) - 1
           end
         end
       end
@@ -49,7 +49,7 @@ module Hanoi
               end
             end
             expect(towers.stacks[2]).to eq goal
-            expect(towers.count).to eq (3 ** discs) - 1
+            expect(towers.total).to eq (3 ** discs) - 1
           end
         end
       end

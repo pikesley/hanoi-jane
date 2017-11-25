@@ -15,6 +15,15 @@ module Hanoi
         rebased
       end
 
+      def inspect
+        i = super
+
+        i.delete :binary
+        i[:ternary] = rebased
+
+        i
+      end
+
       private
 
       def find_stack
