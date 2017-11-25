@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class Towers
+      include Enumerable
+
       attr_reader :count, :stacks
 
       def initialize discs
@@ -11,19 +13,9 @@ module Hanoi
       end
 
       def move
-        @disc = Towers.diff Towers.rebase(@count, @base, @discs),
-                           Towers.rebase(@count += 1, @base, @discs)
-        @source = find_disc
-
+        diff
+        find_disc
         @stacks[find_stack].push @stacks[@source].pop
-      end
-
-      def binary
-        rebased
-      end
-
-      def rebased
-        Towers.rebase @count, @base, @discs
       end
 
       def solved
@@ -34,9 +26,44 @@ module Hanoi
         Matrix.new self
       end
 
+      def inspect
+        {
+          stacks: @stacks,
+          count: rebased
+        }
+      end
+
+      def each
+        #unless solved
+          move
+          yield self
+        #end
+      end
+
+      def to_s
+        s = ''
+        @stacks.each do |stack|
+          s += stack.to_s
+          s += "\n"
+        end
+        s += '---'
+
+        s
+      end
+
+      def binary
+        rebased
+      end
+
+      def rebased
+        Towers.rebase @count, @base, @discs
+      end
+
+      private
+
       def find_disc
         @stacks.each_with_index do |stack, index|
-          return index if stack.index @disc
+          @source = index if stack.index @disc
         end
       end
 
@@ -55,34 +82,19 @@ module Hanoi
         return (@source + 1) % 3
       end
 
-      def inspect
-        {
-          stacks: @stacks,
-          count: rebased
-        }
-      end
-
-      def to_s
-        s = ''
-        @stacks.each do |stack|
-          s += stack.to_s
-          s += "\n"
+      def diff
+        this = binary
+        @count += 1
+        that = binary
+        this.chars.reverse.each_with_index do |bit, index|
+          if bit < that.chars.reverse[index]
+            @disc = index
+          end
         end
-        s += '---'
-
-        s
       end
 
       def Towers.rebase value, base, width
         '%0*d' % [width, value.to_s(base)]
-      end
-
-      def Towers.diff first, second
-        first.chars.reverse.each_with_index do |bit, index|
-          if bit < second.chars.reverse[index]
-            return index
-          end
-        end
       end
     end
   end

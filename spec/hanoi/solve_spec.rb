@@ -13,7 +13,7 @@ module Hanoi
                 expect(stack.sort.reverse).to eq stack
               end
             end
-            expect(towers.stacks[1, 2].include? goal).to be true
+            expect(towers.stacks[2 - (discs % 2)]).to eq goal
             expect(towers.count).to eq (2 ** discs) - 1
           end
         end

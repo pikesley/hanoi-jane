@@ -14,7 +14,9 @@ module Hanoi
       def ternary
         rebased
       end
-      
+
+      private
+
       def find_stack
         case @source
         when 0
