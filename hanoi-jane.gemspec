@@ -11,11 +11,11 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Solve the Towers of Hanoi}
   spec.description   = %q{by counting in base 2 or 3}
-  spec.homepage      = 'http://pikesley.org'
+  spec.homepage      = 'http://sam.pikesley.org/projects/hanoi-jane/'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
+    f.match(%r{^(spec)/})
   end
   spec.bindir        = 'bin'
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

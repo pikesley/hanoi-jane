@@ -6,7 +6,7 @@ module Hanoi
           towers = Towers.new discs
           goal = towers.stacks[0].clone
 
-          it "plays by the rules with %s discs" % discs do
+          it 'plays by the rules with %s discs' % discs do
             until towers.solved do
               towers.move
               towers.stacks.each do |stack|
@@ -41,7 +41,7 @@ module Hanoi
           towers = ConstrainedTowers.new discs
           goal = towers.stacks[0].clone
 
-          it "plays by the rules with %s discs" % discs do
+          it 'plays by the rules with %s discs' % discs do
             until towers.solved do
               towers.move
               towers.stacks.each do |stack|

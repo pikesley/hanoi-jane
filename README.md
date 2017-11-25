@@ -45,15 +45,15 @@ end
 which will give you:
 
 ```ruby
-{:stacks=>[[1, 0], [], []], :moves=>0, :flipped=>nil, :ternary=>"00"}
-{:stacks=>[[1], [0], []], :moves=>1, :flipped=>0, :ternary=>"01"}
-{:stacks=>[[1], [], [0]], :moves=>2, :flipped=>0, :ternary=>"02"}
-{:stacks=>[[], [1], [0]], :moves=>3, :flipped=>1, :ternary=>"10"}
-{:stacks=>[[], [1, 0], []], :moves=>4, :flipped=>0, :ternary=>"11"}
-{:stacks=>[[0], [1], []], :moves=>5, :flipped=>0, :ternary=>"12"}
-{:stacks=>[[0], [], [1]], :moves=>6, :flipped=>1, :ternary=>"20"}
-{:stacks=>[[], [0], [1]], :moves=>7, :flipped=>0, :ternary=>"21"}
-{:stacks=>[[], [], [1, 0]], :moves=>8, :flipped=>0, :ternary=>"22"}
+{:stacks=>[[1, 0], [], []], :moves=>0, :flipped=>nil, :ternary=>'00'}
+{:stacks=>[[1], [0], []], :moves=>1, :flipped=>0, :ternary=>'01'}
+{:stacks=>[[1], [], [0]], :moves=>2, :flipped=>0, :ternary=>'02'}
+{:stacks=>[[], [1], [0]], :moves=>3, :flipped=>1, :ternary=>'10'}
+{:stacks=>[[], [1, 0], []], :moves=>4, :flipped=>0, :ternary=>'11'}
+{:stacks=>[[0], [1], []], :moves=>5, :flipped=>0, :ternary=>'12'}
+{:stacks=>[[0], [], [1]], :moves=>6, :flipped=>1, :ternary=>'20'}
+{:stacks=>[[], [0], [1]], :moves=>7, :flipped=>0, :ternary=>'21'}
+{:stacks=>[[], [], [1, 0]], :moves=>8, :flipped=>0, :ternary=>'22'}
 ```
 where `flipped` is the disc that was moved last
 

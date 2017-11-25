@@ -5,7 +5,7 @@ module Hanoi
     class CLI < ::Thor
       desc 'version', 'Print hanoi version'
       def version
-        puts "hanoi version #{VERSION}"
+        puts 'hanoi version #{VERSION}'
       end
       map %w(-v --version) => :version
 
@@ -26,7 +26,7 @@ module Hanoi
         end
       end
 
-      desc 'console', "Solve the towers one the console"
+      desc 'console', 'Solve the towers one the console'
       option :discs, type: :numeric, default: 3
       option :constrained, type: :boolean
       def console
@@ -39,7 +39,7 @@ module Hanoi
           puts state
         end
 
-        puts "%d moves to solve for %d discs" % [towers.total, options[:discs]]
+        puts '%d moves to solve for %d discs' % [towers.total, options[:discs]]
       end
     end
   end

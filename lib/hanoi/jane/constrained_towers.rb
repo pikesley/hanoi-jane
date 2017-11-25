@@ -12,32 +12,24 @@ module Hanoi
 
       def inspect
         i = super
-
-        i.delete :binary
-        i[:ternary] = rebased
-
+        i[:ternary] = i.delete :binary
         i
       end
 
       private
 
       def find_stack
-        parity = rebased.chars.inject(0) { |sum,x| sum + x.to_i } % 2
-
-        case @source
-        when 0
-          return 1
-
-        when 2
-          return 1
-
-        when 1
-           if parity == 0
+        # if we're in the middle
+        if @source == 1
+          # we always move to the right on an even total
+          if @total % 2 == 0
             return 2
           else
             return 0
           end
         end
+        # otherwise we're at the edges and can only move to the middle
+        1
       end
     end
   end
