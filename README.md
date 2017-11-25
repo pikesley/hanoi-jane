@@ -1,7 +1,6 @@
 [![Build Status](http://img.shields.io/travis/pikesley/hanoi-jane.svg?style=flat-square)](https://travis-ci.org/pikesley/hanoi-jane)
 [![Dependency Status](http://img.shields.io/gemnasium/pikesley/hanoi-jane.svg?style=flat-square)](https://gemnasium.com/pikesley/hanoi-jane)
 [![Coverage Status](http://img.shields.io/coveralls/pikesley/hanoi-jane.svg?style=flat-square)](https://coveralls.io/r/pikesley/hanoi-jane)
-[![Code Climate](http://img.shields.io/codeclimate/github/pikesley/hanoi-jane.svg?style=flat-square)](https://codeclimate.com/github/pikesley/hanoi-jane)
 [![Gem Version](http://img.shields.io/gem/v/hanoi-jane.svg?style=flat-square)](https://rubygems.org/gems/hanoi-jane)
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://pikesley.mit-license.org)
 
