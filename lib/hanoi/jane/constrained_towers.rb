@@ -4,11 +4,6 @@ module Hanoi
       def initialize discs
         super
         @base = 3
-
-        @directions = {}
-        @stacks[0].each do |disc|
-          @directions[disc] = :right
-        end
       end
 
       def ternary
@@ -27,15 +22,17 @@ module Hanoi
       private
 
       def find_stack
+        parity = rebased.chars.inject(0) { |sum,x| sum + x.to_i } % 2
+
         case @source
         when 0
-          @directions[@disc] = :right
           return 1
+
         when 2
-          @directions[@disc] = :left
           return 1
+
         when 1
-          if @directions[@disc] == :right
+           if parity == 0
             return 2
           else
             return 0
