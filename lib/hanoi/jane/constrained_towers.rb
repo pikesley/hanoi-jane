@@ -4,11 +4,6 @@ module Hanoi
       def initialize discs
         super
         @base = 3
-
-        @directions = {}
-        @stacks[0].each do |disc|
-          @directions[disc] = :right
-        end
       end
 
       def ternary
@@ -17,30 +12,24 @@ module Hanoi
 
       def inspect
         i = super
-
-        i.delete :binary
-        i[:ternary] = rebased
-
+        i[:ternary] = i.delete :binary
         i
       end
 
       private
 
       def find_stack
-        case @source
-        when 0
-          @directions[@disc] = :right
-          return 1
-        when 2
-          @directions[@disc] = :left
-          return 1
-        when 1
-          if @directions[@disc] == :right
+        # if we're in the middle
+        if @source == 1
+          # we always move to the right on an even total
+          if @total % 2 == 0
             return 2
           else
             return 0
           end
         end
+        # otherwise we're at the edges and can only move to the middle
+        1
       end
     end
   end
