@@ -31,7 +31,7 @@ module Hanoi
           stacks: @stacks,
           moves: @total,
           binary: rebased,
-          flipped: @disc
+          moved: @disc
         }
       end
 

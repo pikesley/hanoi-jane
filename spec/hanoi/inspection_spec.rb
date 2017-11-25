@@ -12,7 +12,7 @@ module Hanoi
           ],
           moves: 1,
           binary: '001',
-          flipped: 0
+          moved: 0
         })
       end
     end
@@ -31,7 +31,7 @@ module Hanoi
           ],
           moves: 3,
           ternary: '010',
-          flipped: 1          
+          moved: 1          
         })
       end
     end

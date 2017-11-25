@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['sam.pikesley@gmail.com']
 
   spec.summary       = %q{Solve the Towers of Hanoi}
-  spec.description   = %q{by counting in base 2 or 3}
+  spec.description   = %q{Solve the Towers of Hanoi by counting in base 2 or 3}
   spec.homepage      = 'http://sam.pikesley.org/projects/hanoi-jane/'
   spec.license       = 'MIT'
 
