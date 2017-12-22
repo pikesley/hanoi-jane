@@ -26,6 +26,19 @@ module Hanoi
         Matrix.new self
       end
 
+      def console
+        stacks = self.stacks.map { |s| s.clone }.map { |s| (Towers.pad s, 3) }.transpose.reverse
+#require 'pry' ; binding.pry
+        s = ''
+
+        stacks.each do |stack|
+          s += stack.map { |s| Towers.make_disc s, 5 }.join ''
+          s+= "\n"
+        end
+
+        s
+      end
+
       def inspect
         {
           stacks: @stacks,
@@ -98,6 +111,41 @@ module Hanoi
 
       def Towers.rebase value, base, width
         '%0*d' % [width, value.to_s(base)]
+      end
+
+      def Towers.pad array, length
+        until array.length == length
+          array.unshift nil
+        end
+
+        array
+      end
+
+      def Towers.make_disc width, space
+        unless width
+          return ' ' * space
+        end
+
+        count = Towers.scale width
+        padding = (space - count) / 2
+
+        '%s%s%s' % [
+          ' ' * padding,
+          'o' * count,
+          ' ' * padding
+        ]
+      end
+
+      def Towers.scale size
+        (size * 2) + 1
+      end
+
+      def Towers.rotate stacks
+        [
+          [0, nil, nil],
+          [1, nil, nil],
+          [2, nil, nil]
+        ]
       end
     end
   end
