@@ -41,7 +41,7 @@ module Hanoi
         end
 
         towers.each do |state|
-          puts state
+          puts state.console
         end
 
         puts '%d moves to solve for %d discs' % [towers.total, options[:discs]]

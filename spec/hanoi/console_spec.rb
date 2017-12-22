@@ -4,21 +4,21 @@ module Hanoi
       towers = Towers.new 3
 
       it 'has the correct initial content' do
-        expect(towers.console).to eq "  o            \n ooo           \nooooo          \n"
+        expect(towers.console).to eq "  o              \n ooo             \nooooo            \n"
       end
 
       it 'has the correct first-state content' do
         towers.move
-        expect(towers.console).to eq "               \n ooo           \nooooo  o       \n"
+        expect(towers.console).to eq "                 \n ooo             \nooooo   o        \n"
       end
 
       it 'has the correct second-state content' do
         towers.move
-        expect(towers.console).to eq "               \n               \nooooo  o   ooo \n"
+        expect(towers.console).to eq "                 \n                 \nooooo   o    ooo \n"
       end
 
       context 'rotates the stacks' do
-        it 'rotates the initsal state' do
+        it 'rotates the initial state' do
           expect(Towers.rotate [[2, 1, 0], [nil, nil, nil], [nil, nil, nil]]).to eq [
             [0, nil, nil],
             [1, nil, nil],
@@ -26,8 +26,20 @@ module Hanoi
           ]
         end
 
-        it 'rotates a trickier case' do
-          expect(Towers.rotate)
+        it 'rotates the first state' do
+          expect(Towers.rotate [[2, 1, nil], [0, nil, nil], [nil, nil, nil]]).to eq [
+            [nil, nil, nil],
+            [1, nil, nil],
+            [2, 0, nil]
+          ]
+        end
+
+        it 'rotates the second state' do
+          expect(Towers.rotate [[2, nil, nil], [0, nil, nil], [1, nil, nil]]).to eq [
+            [nil, nil, nil],
+            [nil, nil, nil],
+            [2, 0, 1]
+          ]
         end
       end
 

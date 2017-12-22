@@ -27,13 +27,13 @@ module Hanoi
       end
 
       def console
-        stacks = self.stacks.map { |s| s.clone }.map { |s| (Towers.pad s, 3) }.transpose.reverse
-#require 'pry' ; binding.pry
         s = ''
+        x = self.stacks.clone
+        y = x.map { |s| s.clone }
 
-        stacks.each do |stack|
-          s += stack.map { |s| Towers.make_disc s, 5 }.join ''
-          s+= "\n"
+        (Towers.rotate y.map { |s| (Towers.pad s, 3).reverse }).each do |stack|
+          s += stack.map { |s| Towers.make_disc s, 5 }.join ' '
+          s += "\n"
         end
 
         s
@@ -115,10 +115,10 @@ module Hanoi
 
       def Towers.pad array, length
         until array.length == length
-          array.unshift nil
+          array.push nil
         end
 
-        array
+        array.reverse
       end
 
       def Towers.make_disc width, space
@@ -141,11 +141,7 @@ module Hanoi
       end
 
       def Towers.rotate stacks
-        [
-          [0, nil, nil],
-          [1, nil, nil],
-          [2, nil, nil]
-        ]
+        stacks.map { |s| s.clone }.transpose.reverse
       end
     end
   end
