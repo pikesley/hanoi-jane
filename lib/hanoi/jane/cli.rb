@@ -26,17 +26,26 @@ module Hanoi
         end
       end
 
-      desc 'console', 'Solve the towers one the console'
-      option :discs, type: :numeric, default: 3
+      desc 'console', 'Solve the towers on the console'
+      option :discs, type: :numeric, default: 3, minimum: 1
       option :constrained, type: :boolean
       def console
+        if options[:discs] < 1
+          puts "Solving for %d discs makes no sense" % options[:discs]
+          exit 1
+        end
+
         towers = Towers.new options[:discs]
         if options[:constrained]
           towers = ConstrainedTowers.new options[:discs]
         end
 
         towers.each do |state|
-          puts state
+          system('clear')
+          puts state.rebased
+          puts
+          puts state.console
+          sleep 0.2
         end
 
         puts '%d moves to solve for %d discs' % [towers.total, options[:discs]]
