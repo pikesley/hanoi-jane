@@ -31,8 +31,8 @@ module Hanoi
         x = self.stacks.clone
         y = x.map { |s| s.clone }
 
-        (Towers.rotate y.map { |s| (Towers.pad s, 3).reverse }).each do |stack|
-          s += stack.map { |s| Towers.make_disc s, 5 }.join ' '
+        (Towers.rotate y.map { |s| (Towers.pad s, @discs).reverse }).each do |stack|
+          s += stack.map { |s| Towers.make_disc s, (Towers.scale @discs) }.join ' '
           s += "\n"
         end
 
@@ -121,7 +121,7 @@ module Hanoi
         array.reverse
       end
 
-      def Towers.make_disc width, space
+      def Towers.make_disc width, space, char = 'o'
         unless width
           return ' ' * space
         end
@@ -131,7 +131,7 @@ module Hanoi
 
         '%s%s%s' % [
           ' ' * padding,
-          'o' * count,
+          char * count,
           ' ' * padding
         ]
       end

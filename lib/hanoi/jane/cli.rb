@@ -41,7 +41,11 @@ module Hanoi
         end
 
         towers.each do |state|
+          system('clear')
+          puts state.rebased
+          puts
           puts state.console
+          sleep 0.2
         end
 
         puts '%d moves to solve for %d discs' % [towers.total, options[:discs]]

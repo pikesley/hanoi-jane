@@ -4,17 +4,17 @@ module Hanoi
       towers = Towers.new 3
 
       it 'has the correct initial content' do
-        expect(towers.console).to eq "  o              \n ooo             \nooooo            \n"
+        expect(towers.console).to eq "   o                   \n  ooo                  \n ooooo                 \n"
       end
 
       it 'has the correct first-state content' do
         towers.move
-        expect(towers.console).to eq "                 \n ooo             \nooooo   o        \n"
+        expect(towers.console).to eq "                       \n  ooo                  \n ooooo     o           \n"
       end
 
       it 'has the correct second-state content' do
         towers.move
-        expect(towers.console).to eq "                 \n                 \nooooo   o    ooo \n"
+        expect(towers.console).to eq "                       \n                       \n ooooo     o      ooo  \n"
       end
 
       context 'rotates the stacks' do
