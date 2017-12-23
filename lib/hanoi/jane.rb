@@ -5,6 +5,7 @@ require 'hanoi/jane/version'
 require 'hanoi/jane/towers'
 require 'hanoi/jane/constrained_towers'
 require 'hanoi/jane/matrix'
+require 'hanoi/jane/console'
 
 module Hanoi
   module Jane
