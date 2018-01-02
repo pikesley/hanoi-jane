@@ -2,10 +2,12 @@ require 'thor'
 require 'httparty'
 
 require 'hanoi/jane/version'
+
 require 'hanoi/jane/towers'
 require 'hanoi/jane/constrained_towers'
-require 'hanoi/jane/matrix'
-require 'hanoi/jane/console'
+
+require 'hanoi/jane/formatters/matrix'
+require 'hanoi/jane/formatters/console'
 
 module Hanoi
   module Jane
