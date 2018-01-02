@@ -4,20 +4,18 @@ module Hanoi
       attr_reader :content
 
       def initialize towers
-        @stacks = towers.stacks
         @discs = towers.discs
-        @content = ''
-        x = @stacks.clone
-        y = x.map { |s| s.clone }
-
-        (Console.rotate y.map { |s| (Console.pad s, @discs).reverse }).each do |stack|
-          @content += stack.map { |s| Console.make_disc s, (Console.scale @discs) }.join ' '
-          @content += "\n"
-        end
+        @stacks = towers.stacks.clone.map { |s| s.clone }
       end
 
       def to_s
-        @content
+        s = ''
+        (Console.rotate @stacks.map { |s| (Console.pad s, @discs).reverse }).each do |stack|
+          s += stack.map { |s| Console.make_disc s, (Console.scale @discs) }.join ' '
+          s += "\n"
+        end
+
+        s 
       end
 
       def Console.pad array, length
