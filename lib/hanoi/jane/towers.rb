@@ -23,11 +23,11 @@ module Hanoi
       end
 
       def matrix
-        Matrix.new self
+        Formatters::Matrix.new self
       end
 
       def console
-        (Console.new self).to_s
+        (Formatters::Console.new self).to_s
       end
 
       def inspect
