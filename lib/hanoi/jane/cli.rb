@@ -29,6 +29,7 @@ module Hanoi
       desc 'console', 'Solve the towers on the console'
       option :discs, type: :numeric, default: 3, minimum: 1
       option :constrained, type: :boolean
+      option :fancy, type: :boolean, default: false
       def console
         if options[:discs] < 1
           puts "Solving for %d discs makes no sense" % options[:discs]
@@ -36,13 +37,17 @@ module Hanoi
         end
 
         towers = Towers.new options[:discs]
+
         if options[:constrained]
           towers = ConstrainedTowers.new options[:discs]
         end
 
+        towers.fancy = options[:fancy]
+
         towers.each do |state|
           system('clear')
-          puts state.rebased
+          s = options[:fancy] ? (Formatters::Console.fancify state.rebased) : state.rebased
+          puts s
           puts
           puts state.console
           sleep 0.2
