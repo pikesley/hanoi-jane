@@ -4,12 +4,14 @@ module Hanoi
       include Enumerable
 
       attr_reader :total, :stacks, :discs
+      attr_accessor :fancy
 
       def initialize discs
         @discs = discs
         @total = 0
         @base = 2
         @stacks = [(0...discs).to_a.reverse, [], []]
+        @fancy = false
       end
 
       def move
