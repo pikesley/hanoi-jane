@@ -16,8 +16,9 @@ module Hanoi
 
       def move
         diff
-        find_disc
-        @stacks[find_stack].push @stacks[@source].pop
+        @source = find_disc
+        @sink = find_stack
+        @stacks[@sink].push @stacks[@source].pop
       end
 
       def solved
@@ -37,7 +38,11 @@ module Hanoi
           stacks: @stacks,
           moves: @total,
           binary: rebased,
-          moved: @disc
+          moved: {
+            disc: @disc,
+            from: @source,
+            to: @sink
+          }
         }
       end
 
@@ -72,11 +77,11 @@ module Hanoi
 
       def find_disc
         @stacks.each_with_index do |stack, index|
-          @source = index if stack.index @disc
+          return index if stack.index @disc
         end
       end
 
-      def find_stack #disc, source, stacks
+      def find_stack
         # if the next stack is empty, move there
         if @stacks[(@source + 1) % 3] == []
           return (@source + 1) % 3
