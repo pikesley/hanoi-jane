@@ -1,22 +1,16 @@
 module Hanoi
   module Jane
     class Animator
-
       describe Lifter do
         context 'find the thing to lift' do
           it 'does an easy case' do
-            l = Lifter.new [1, 0, nil, nil]
+            l = Lifter.new [1, 0], 4
             expect(l.liftee).to eq 1
-          end
-
-          it 'does a tricker case' do
-            l = Lifter.new [1, nil, 0, nil]
-            expect(l.liftee).to eq 2
           end
         end
 
         context 'lift the thing' do
-          l = Lifter.new [1, 0, nil, nil]
+          l = Lifter.new [1, 0], 4
 
           it 'does the first lift' do
             l.lift
@@ -34,8 +28,17 @@ module Hanoi
           end
         end
 
+        context 'lift a different thing' do
+          l = Lifter.new [1], 3
+
+          it 'lifts it once' do
+            l.lift
+            expect(l.stack).to eq [nil, 1, nil]
+          end
+        end
+
         context 'iterator' do
-          l = Lifter.new [1, 0, nil, nil]
+          l = Lifter.new [1, 0], 4
 
           it 'exposes an iterator' do
             count = 0
