@@ -30,7 +30,7 @@ module Hanoi
       end
 
       def console
-        (Formatters::Console.new self).to_s
+        (Formatters::Console.new @discs, @stacks, @fancy).to_s
       end
 
       def inspect
