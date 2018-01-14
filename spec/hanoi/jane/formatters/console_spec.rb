@@ -4,17 +4,17 @@ module Hanoi
       towers = Towers.new 3
 
       it 'has the correct initial content' do
-        expect(towers.console).to eq "    |       |       |    \n    o       |       |    \n   ooo      |       |    \n| ooooo |   |   |   |   |\n-------------------------\n"
+        expect(towers.console).to eq "    o       |       |    \n   ooo      |       |    \n  ooooo     |       |    \n-------------------------\n"
       end
 
       it 'has the correct first-state content' do
         towers.move
-        expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n   ooo      |       |    \n| ooooo |   o   |   |   |\n-------------------------\n"
+        expect(towers.console).to eq "    |       |       |    \n   ooo      |       |    \n  ooooo     o       |    \n-------------------------\n"
       end
 
       it 'has the correct second-state content' do
         towers.move
-        expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n    |       |       |    \n| ooooo |   o   |  ooo  |\n-------------------------\n"
+        expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n  ooooo     o      ooo   \n-------------------------\n"
       end
     end
 
@@ -45,7 +45,7 @@ module Hanoi
         end
 
         it 'pads an array' do
-          expect(Console.pad [0], 3).to eq [nil, nil, nil, 0]
+          expect(Console.pad [0], 3).to eq [nil, nil, 0]
         end
 
         it 'makes a disc' do

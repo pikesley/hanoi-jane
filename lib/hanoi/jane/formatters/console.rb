@@ -18,10 +18,10 @@ module Hanoi
           horiz_divider: '🔻'
         }
 
-        def initialize towers
-          @discs = towers.discs
-          @stacks = towers.stacks.clone.map { |s| s.clone }
-          @@chars = towers.fancy ? FANCY_CHARS : CHARS
+        def initialize discs, stacks, fancy = false
+          @discs = discs
+          @stacks = stacks.clone.map { |s| s.clone }
+          @@chars = fancy ? FANCY_CHARS : CHARS
         end
 
         def to_s
@@ -43,7 +43,7 @@ module Hanoi
         end
 
         def Console.pad array, length
-          Array.new(length + 1 - array.length) + array.reverse
+          Array.new(length - array.length) + array.reverse
         end
 
         def Console.make_disc width, space

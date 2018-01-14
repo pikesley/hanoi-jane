@@ -3,8 +3,8 @@ module Hanoi
     class Towers
       include Enumerable
 
-      attr_reader :total, :stacks, :discs
-      attr_accessor :fancy
+      attr_reader :total, :stacks, :discs, :old_stacks, :disc, :source, :sink
+      attr_accessor :fancy, :animated, :animation
 
       def initialize discs
         @discs = discs
@@ -12,12 +12,20 @@ module Hanoi
         @base = 2
         @stacks = [(0...discs).to_a.reverse, [], []]
         @fancy = false
+        @animated = false
       end
 
       def move
+        @old_stacks = @stacks.clone.map { |s| s.clone }
+
         diff
-        find_disc
-        @stacks[find_stack].push @stacks[@source].pop
+        @source = find_disc
+        @sink = find_stack
+        @stacks[@sink].push @stacks[@source].pop
+
+        if @animated
+          @animation = Animation.new self
+        end
       end
 
       def solved
@@ -29,7 +37,7 @@ module Hanoi
       end
 
       def console
-        (Formatters::Console.new self).to_s
+        (Formatters::Console.new @discs, @stacks, @fancy).to_s
       end
 
       def inspect
@@ -37,7 +45,11 @@ module Hanoi
           stacks: @stacks,
           moves: @total,
           binary: rebased,
-          moved: @disc
+          moved: {
+            disc: @disc,
+            from: @source,
+            to: @sink
+          }
         }
       end
 
@@ -72,11 +84,11 @@ module Hanoi
 
       def find_disc
         @stacks.each_with_index do |stack, index|
-          @source = index if stack.index @disc
+          return index if stack.index @disc
         end
       end
 
-      def find_stack #disc, source, stacks
+      def find_stack
         # if the next stack is empty, move there
         if @stacks[(@source + 1) % 3] == []
           return (@source + 1) % 3
