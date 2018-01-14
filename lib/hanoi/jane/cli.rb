@@ -31,6 +31,7 @@ module Hanoi
       option :constrained, type: :boolean
       option :fancy, type: :boolean, default: false
       option :animated, type: :boolean, default: false
+      option :delay, type: :numeric, default: 0.2
       def console
         if options[:discs] < 1
           puts "Solving for %d discs makes no sense" % options[:discs]
@@ -44,19 +45,15 @@ module Hanoi
         end
 
         towers.fancy = options[:fancy]
+        towers.animated = options[:animated]
 
-        if options[:animated]
-          a = Animator.new towers
-          a.run
-        else
-          towers.each do |state|
-            system('clear')
-            s = options[:fancy] ? (Formatters::Console.fancify state.rebased) : state.rebased
-            puts s
-            puts
-            puts state.console
-            sleep 0.2
-          end
+        towers.each do |state|
+          system('clear')
+          s = options[:fancy] ? (Formatters::Console.fancify state.rebased) : state.rebased
+          puts s
+          puts
+          puts state.console
+          sleep options[:delay]
         end
 
         puts '%d moves to solve for %d discs' % [towers.total, options[:discs]]
