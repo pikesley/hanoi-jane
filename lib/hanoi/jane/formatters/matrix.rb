@@ -6,17 +6,28 @@ module Hanoi
           @stacks = towers.stacks
           @digits = towers.rebased
 
-          7.times do
-            self.push [0] * 45
+          populate
+        end
+
+        def stacks= stacks
+          @stacks = stacks
+          populate
+        end
+
+        def populate
+          7.times do |i|
+            self[i] = [0] * 45
           end
 
           offset = 0
           @stacks.each do |stack|
             total = 0
             stack.each do |disc|
-              shim = ((5 - (disc + 1)) / 2).round
-              (disc + 1).times do |i|
-                self[6 - total][i + offset + shim] = 1
+              if disc
+                shim = ((5 - (disc + 1)) / 2).round
+                (disc + 1).times do |i|
+                  self[6 - total][i + offset + shim] = 1
+                end
               end
               total += 1
             end

@@ -6,6 +6,7 @@ module Hanoi
       attr_reader :stacks
 
       def initialize towers
+        @towers = towers
         @height = towers.discs
         @stacks = Animation.pad towers.old_stacks, @height
         @disc = towers.disc
@@ -54,6 +55,13 @@ module Hanoi
 
       def to_s
         (Formatters::Console.new @height, @stacks, @fancy).to_s
+      end
+
+      def matrix
+        m = Formatters::Matrix.new @towers
+        m.stacks = @stacks
+
+        m
       end
 
       def each
