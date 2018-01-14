@@ -7,8 +7,6 @@ require 'hanoi/jane/towers'
 require 'hanoi/jane/constrained_towers'
 require 'hanoi/jane/animation'
 
-require 'hanoi/jane/animator'
-
 require 'hanoi/jane/formatters/matrix'
 require 'hanoi/jane/formatters/console'
 

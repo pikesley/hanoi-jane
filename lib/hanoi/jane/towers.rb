@@ -4,7 +4,7 @@ module Hanoi
       include Enumerable
 
       attr_reader :total, :stacks, :discs
-      attr_accessor :fancy, :animated
+      attr_accessor :fancy, :animated, :animation
 
       def initialize discs
         @discs = discs
@@ -16,10 +16,16 @@ module Hanoi
       end
 
       def move
+        st = @stacks.clone.map { |s| s.clone }
+
         diff
         @source = find_disc
         @sink = find_stack
         @stacks[@sink].push @stacks[@source].pop
+
+        if @animated
+          @animation = Animation.new st, @disc, @source, @sink, @discs
+        end
       end
 
       def solved
