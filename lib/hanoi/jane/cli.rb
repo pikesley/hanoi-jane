@@ -13,6 +13,7 @@ module Hanoi
       option :phat, type: :string, required: true
       option :constrained, type: :boolean
       option :interval, type: :numeric, default: 0.3
+      option :animated, type: :boolean, default: false
 
       def phat
         towers = Towers.new 5
@@ -20,7 +21,16 @@ module Hanoi
           towers = ConstrainedTowers.new 5
         end
 
+        towers.animated = options[:animated]
+
         towers.each do |state|
+          if state.animation
+            state.animation.each do |frame|
+              Hanoi::Jane.hit_phat frame, options[:phat]
+              sleep options[:interval] * 0.1
+            end
+          end
+
           Hanoi::Jane.hit_phat towers, options[:phat]
           sleep options[:interval]
         end
@@ -32,6 +42,7 @@ module Hanoi
       option :fancy, type: :boolean, default: false
       option :animated, type: :boolean, default: false
       option :delay, type: :numeric, default: 0.2
+
       def console
         if options[:discs] < 1
           puts "Solving for %d discs makes no sense" % options[:discs]
