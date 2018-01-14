@@ -3,7 +3,7 @@ module Hanoi
     class Towers
       include Enumerable
 
-      attr_reader :total, :stacks, :discs
+      attr_reader :total, :stacks, :discs, :old_stacks, :disc, :source, :sink
       attr_accessor :fancy, :animated, :animation
 
       def initialize discs
@@ -16,7 +16,7 @@ module Hanoi
       end
 
       def move
-        st = @stacks.clone.map { |s| s.clone }
+        @old_stacks = @stacks.clone.map { |s| s.clone }
 
         diff
         @source = find_disc
@@ -24,7 +24,7 @@ module Hanoi
         @stacks[@sink].push @stacks[@source].pop
 
         if @animated
-          @animation = Animation.new st, @disc, @source, @sink, @discs
+          @animation = Animation.new self
         end
       end
 

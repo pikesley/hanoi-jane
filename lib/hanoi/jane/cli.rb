@@ -48,20 +48,14 @@ module Hanoi
         towers.animated = options[:animated]
 
         towers.each do |state|
-
-
-          if options[:animated]
-            if state.animation
-              count = 0
-              state.animation.each do |frame|
-                system('clear')
-                s = options[:fancy] ? (Formatters::Console.fancify state.rebased) : state.rebased
-                puts s
-                puts
-                puts Formatters::Console.new towers.discs, frame.stacks, towers.fancy
-                sleep options[:delay] * 0.2
-                count += 1
-              end
+          if state.animation
+            state.animation.each do |frame|
+              system('clear')
+              s = options[:fancy] ? (Formatters::Console.fancify state.rebased) : state.rebased
+              puts s
+              puts
+              puts frame
+              sleep options[:delay] * 0.2
             end
           end
 

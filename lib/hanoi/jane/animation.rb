@@ -5,12 +5,13 @@ module Hanoi
 
       attr_reader :stacks
 
-      def initialize stacks, disc, source, destination, height
-        @height = height
-        @stacks = Animation.pad stacks, @height
-        @disc = disc
-        @source = source
-        @destination = destination
+      def initialize towers
+        @height = towers.discs
+        @stacks = Animation.pad towers.old_stacks, @height
+        @disc = towers.disc
+        @source = towers.source
+        @destination = towers.sink
+        @fancy = towers.fancy
 
         @lift = true
         @drop = false
@@ -49,6 +50,10 @@ module Hanoi
             @done = true
           end
         end
+      end
+
+      def to_s
+        (Formatters::Console.new @height, @stacks, @fancy).to_s
       end
 
       def each
