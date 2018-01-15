@@ -2,22 +2,20 @@ module Hanoi
   module Jane
     module Formatters
       class Matrix < Array
-        VALID_DIGITS = ['0', '1', '2']
-
-        DIGIT_GRIDS = {
-          0 => [
+        VALID_DIGITS = {
+          '0' => [
             [1, 1, 1],
             [1, 0, 1],
             [1, 1, 1]
           ],
 
-          1 => [
+          '1' => [
             [0, 1, 0],
             [0, 1, 0],
             [0, 1, 0]
           ],
 
-          2 => [
+          '2' => [
             [1, 1, 0],
             [0, 1, 0],
             [0, 1, 1]
@@ -31,13 +29,16 @@ module Hanoi
           @digits = '0'
           @stacks = [[]]
 
+          @bit_offset = 24
+          @bit_side = :right
+
           yield self if block_given?
 
           #populate
         end
 
         def digits= digits
-          if digits.chars.reject { |d| VALID_DIGITS.include? d }.length > 0
+          if digits.chars.reject { |d| VALID_DIGITS.keys.include? d }.length > 0
             raise MatrixException.new '%s is not a valid value for digits' % digits
           end
 
@@ -62,6 +63,14 @@ module Hanoi
           end
         end
 
+        def draw_stack stack, offset = 0
+          height = 0
+          stack.each do |disc|
+            draw_disc disc, height, offset
+            height += 1
+          end
+        end
+
         def populate
           wipe
           draw_stacks
@@ -71,18 +80,12 @@ module Hanoi
         def draw_stacks
           offset = 0
           @stacks.each do |stack|
-            height = 0
-            stack.each do |disc|
-              draw_disc disc, height, offset
-              height += 1
-            end
+            draw_stack stack, offset
             offset += 8
           end
         end
 
         def draw_digits
-          @bit_offset = 24
-          @bit_side = :right
           @digits.chars.each do |bit|
             digit bit
 
@@ -103,14 +106,13 @@ module Hanoi
             @row = 4
           end
 
-          insert DIGIT_GRIDS[value.to_i]
-
+          insert value, @row, @column
         end
 
-        def insert grid
+        def insert value, row = 0, column = 0
           3.times do |i|
             3.times do |j|
-              self[@row + i][@column + j] = grid[i][j]
+              self[row + i][column + j] = VALID_DIGITS[value][i][j]
             end
           end
         end

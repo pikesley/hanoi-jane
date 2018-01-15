@@ -58,7 +58,7 @@ module Hanoi
             expect(matrix.map { |row| row.all? { |digit| digit == 0} }.all? { |b| b } ).to be true
           end
 
-          context 'discs' do
+          context 'stacks' do
             shims = [2, 1, 1, 0, 0].each_with_index do |shim, size|
               it 'makes a size-%d shim for a size-%d disc' % [size, shim] do
                 expect(Matrix.shim size).to eq shim
@@ -68,6 +68,37 @@ module Hanoi
             it 'draws a disc' do
               matrix.draw_disc 4
               expect(matrix[6][0..5]).to eq [1, 1, 1, 1, 1, 0]
+            end
+
+            it 'draws a stack' do
+              matrix.wipe
+              matrix.draw_stack [1, 0]
+              expect(matrix[5..6].map { |a| a[0..5] }).to eq [
+                [0, 0, 1, 0, 0, 0],
+                [0, 1, 1, 0, 0, 0]
+              ]
+            end
+          end
+
+          context 'digit grids' do
+            it 'inserts a 0' do
+              matrix.wipe
+              matrix.insert '0'
+              expect(matrix[0..2].map { |a| a[0..2] }).to eq [
+                [1, 1, 1],
+                [1, 0, 1],
+                [1, 1, 1]
+              ]
+            end
+
+            it 'inserts a 2 with an offset' do
+              matrix.wipe
+              matrix.insert '2', 1, 3
+              expect(matrix[1..3].map { |a| a[3..5] }).to eq [
+                [1, 1, 0],
+                [0, 1, 0],
+                [0, 1, 1]
+              ]
             end
           end
         end
