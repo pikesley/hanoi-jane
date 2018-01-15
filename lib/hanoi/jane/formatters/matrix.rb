@@ -2,38 +2,85 @@ module Hanoi
   module Jane
     module Formatters
       class Matrix < Array
-        def initialize towers
-          @stacks = towers.stacks
-          @digits = towers.rebased
+        VALID_DIGITS = ['0', '1', '2']
 
-          populate
+        DIGIT_GRIDS = {
+          0 => [
+            [1, 1, 1],
+            [1, 0, 1],
+            [1, 1, 1]
+          ],
+
+          1 => [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0]
+          ],
+
+          2 => [
+            [1, 1, 0],
+            [0, 1, 0],
+            [0, 1, 1]
+          ]
+        }
+
+        attr_accessor :stacks
+        attr_reader   :digits
+
+        def initialize
+          @digits = '0'
+          @stacks = [[]]
+
+          yield self if block_given?
+
+          #populate
         end
 
-        def stacks= stacks
-          @stacks = stacks
-          populate
+        def digits= digits
+          if digits.chars.reject { |d| VALID_DIGITS.include? d }.length > 0
+            raise MatrixException.new '%s is not a valid value for digits' % digits
+          end
+
+          if digits.length > 5
+            raise MatrixException.new '%s is longer than 5 chars' % digits
+          end
+
+          @digits = digits
         end
 
-        def populate
+        def wipe
           7.times do |i|
             self[i] = [0] * 45
           end
+        end
 
+        def draw_disc disc, height = 0, offset = 0
+          if disc
+            (disc + 1).times do |i|
+              self[6 - height][i + offset + (Matrix.shim disc)] = 1
+            end
+          end
+        end
+
+        def populate
+          wipe
+          draw_stacks
+          draw_digits
+        end
+
+        def draw_stacks
           offset = 0
           @stacks.each do |stack|
-            total = 0
+            height = 0
             stack.each do |disc|
-              if disc
-                shim = ((5 - (disc + 1)) / 2).round
-                (disc + 1).times do |i|
-                  self[6 - total][i + offset + shim] = 1
-                end
-              end
-              total += 1
+              draw_disc disc, height, offset
+              height += 1
             end
             offset += 8
           end
+        end
 
+        def draw_digits
           @bit_offset = 24
           @bit_side = :right
           @digits.chars.each do |bit|
@@ -49,26 +96,6 @@ module Hanoi
         end
 
         def digit value
-          digits = {
-            0 => [
-              [1, 1, 1],
-              [1, 0, 1],
-              [1, 1, 1]
-            ],
-
-            1 => [
-              [0, 1, 0],
-              [0, 1, 0],
-              [0, 1, 0]
-            ],
-
-            2 => [
-              [1, 1, 0],
-              [0, 1, 0],
-              [0, 1, 1]
-            ]
-          }
-
           @column = @bit_offset
           @row = 0
           if @bit_side == :right
@@ -76,7 +103,7 @@ module Hanoi
             @row = 4
           end
 
-          insert digits[value.to_i]
+          insert DIGIT_GRIDS[value.to_i]
 
         end
 
@@ -86,6 +113,18 @@ module Hanoi
               self[@row + i][@column + j] = grid[i][j]
             end
           end
+        end
+
+        def Matrix.shim size
+          ((5 - (size + 1)) / 2).round
+        end
+      end
+
+      class MatrixException < Exception
+        attr_reader :text
+
+        def initialize text
+          @text = text
         end
       end
     end
