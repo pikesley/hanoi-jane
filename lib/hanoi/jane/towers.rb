@@ -33,7 +33,13 @@ module Hanoi
       end
 
       def matrix
-        Formatters::Matrix.new self
+        m = Formatters::Matrix.new do |m|
+          m.stacks = self.stacks
+          m.digits = self.rebased
+        end
+        m.populate
+
+        m
       end
 
       def console

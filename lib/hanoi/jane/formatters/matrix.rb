@@ -23,7 +23,7 @@ module Hanoi
         }
 
         attr_accessor :stacks
-        attr_reader   :digits
+        attr_reader   :digits, :bit_offset
 
         def initialize
           @digits = '0'
@@ -88,14 +88,16 @@ module Hanoi
         def draw_digits
           @digits.chars.each do |bit|
             digit bit
-
-            if @bit_side == :right
-              @bit_side = :left
-              @bit_offset += 8
-            else
-              @bit_side = :right
-            end
+            @bit_side = realign @bit_side
           end
+        end
+
+        def realign side
+          if side == :right
+            @bit_offset += 8
+            return :left
+          end
+          :right
         end
 
         def digit value

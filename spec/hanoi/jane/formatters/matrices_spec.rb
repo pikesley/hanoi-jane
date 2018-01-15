@@ -101,6 +101,18 @@ module Hanoi
               ]
             end
           end
+
+          context 'alignment' do
+            it 'switches left to eight' do
+              expect(matrix.realign :left).to eq :right
+            end
+
+            it 'moves the offset when switching right to left' do
+              offset = matrix.bit_offset
+              expect(matrix.realign :right).to eq :left
+              expect(matrix.bit_offset).to eq offset + 8
+            end
+          end
         end
 
         context 'lights' do
