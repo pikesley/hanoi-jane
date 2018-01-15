@@ -58,8 +58,11 @@ module Hanoi
       end
 
       def matrix
-        m = Formatters::Matrix.new @towers
-        m.stacks = @stacks
+        m = Formatters::Matrix.new do |m|
+          m.stacks = @stacks
+          m.digits = @towers.rebased
+        end
+        m.populate
 
         m
       end

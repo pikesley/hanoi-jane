@@ -3,16 +3,18 @@ module Hanoi
     class Towers
       include Enumerable
 
-      attr_reader :total, :stacks, :discs, :old_stacks, :disc, :source, :sink
-      attr_accessor :fancy, :animated, :animation
+      attr_reader :total, :stacks, :old_stacks, :disc, :source, :sink
+      attr_accessor :discs, :base #, :fancy, :animated, :animation
 
-      def initialize discs
+      def initialize discs = 3
         @discs = discs
         @total = 0
         @base = 2
         @stacks = [(0...discs).to_a.reverse, [], []]
-        @fancy = false
-        @animated = false
+        # @fancy = false
+        # @animated = false
+
+        yield self if block_given?
       end
 
       def move
