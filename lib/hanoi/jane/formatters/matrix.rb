@@ -2,26 +2,6 @@ module Hanoi
   module Jane
     module Formatters
       class Matrix < Array
-        VALID_DIGITS = {
-          '0' => [
-            [1, 1, 1],
-            [1, 0, 1],
-            [1, 1, 1]
-          ],
-
-          '1' => [
-            [0, 1, 0],
-            [0, 1, 0],
-            [0, 1, 0]
-          ],
-
-          '2' => [
-            [1, 1, 0],
-            [0, 1, 0],
-            [0, 1, 1]
-          ]
-        }
-
         attr_accessor :stacks
         attr_reader   :digits, :bit_offset
 
@@ -31,6 +11,7 @@ module Hanoi
 
           @bit_offset = 24
           @bit_side = :right
+          @valid_digits = Config.instance.config.digits
 
           yield self if block_given?
 
@@ -38,7 +19,7 @@ module Hanoi
         end
 
         def digits= digits
-          if digits.chars.reject { |d| VALID_DIGITS.keys.include? d }.length > 0
+          if digits.chars.reject { |d| @valid_digits.keys.include? d }.length > 0
             raise MatrixException.new '%s is not a valid value for digits' % digits
           end
 
@@ -114,7 +95,7 @@ module Hanoi
         def insert value, row = 0, column = 0
           3.times do |i|
             3.times do |j|
-              self[row + i][column + j] = VALID_DIGITS[value][i][j]
+              self[row + i][column + j] = @valid_digits[value][i][j]
             end
           end
         end

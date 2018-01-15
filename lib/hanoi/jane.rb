@@ -1,7 +1,13 @@
+require 'singleton'
+require 'yaml'
+require 'ostruct'
+
 require 'thor'
 require 'httparty'
 
 require 'hanoi/jane/version'
+
+require 'hanoi/jane/config'
 
 require 'hanoi/jane/towers'
 require 'hanoi/jane/constrained_towers'

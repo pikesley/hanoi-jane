@@ -2,34 +2,31 @@ module Hanoi
   module Jane
     module Formatters
       class Console
-        CHARS = {
-          space: ' ',
-          disc: 'o',
-          pole: '|',
-          vert_divider: '|',
-          horiz_divider: '-'
-        }
+        attr_accessor :height
+        attr_reader   :stacks
 
-        FANCY_CHARS = {
-          space: ' ',
-          disc: '🎾',
-          pole: '💈',
-          vert_divider: '🔺',
-          horiz_divider: '🔻'
-        }
+        @@chars = Config.instance.config.chars['regular']
 
-        def initialize discs, stacks, fancy = false
-          @discs = discs
-          @stacks = stacks.clone.map { |s| s.clone }
-          @@chars = fancy ? FANCY_CHARS : CHARS
+        def initialize
+          @height = 0
+
+          yield self if block_given?
         end
+
+        def stacks= stacks
+          @stacks = stacks.clone.map { |s| s.clone }
+        end
+
+        # def fancy= fancy
+        #   @@chars = Config.instance.config.chars.fancy if fancy
+        # end
 
         def to_s
           s = ''
-          joiner = @@chars[:space]
+          joiner = @@chars['space']
 
           (Console.rotate @stacks.map { |s| (Console.pad s, @discs).reverse }).each_with_index do |stack, i|
-            joiner = @@chars[:vert_divider] if i == @discs
+            joiner = @@chars['vert_divider'] if i == @discs
 
             s += "%s%s%s\n" % [
               joiner,
@@ -39,7 +36,7 @@ module Hanoi
 
           end
 
-          s += "%s\n" % [@@chars[:horiz_divider] * (4 + (Console.scale @discs) * 3)]
+          s += "%s\n" % [@@chars['horiz_divider'] * (4 + (Console.scale @discs) * 3)]
         end
 
         def Console.pad array, length
@@ -47,19 +44,19 @@ module Hanoi
         end
 
         def Console.make_disc width, space
-          char = @@chars[:disc]
+          char = @@chars['disc']
           unless width
             width = 0
-            char = @@chars[:pole]
+            char = @@chars['pole']
           end
 
           count = Console.scale width
           padding = (space - count) / 2
 
           '%s%s%s' % [
-            @@chars[:space] * padding,
+            @@chars['space'] * padding,
             char * count,
-            @@chars[:space] * padding
+            @@chars['space'] * padding
           ]
         end
 
