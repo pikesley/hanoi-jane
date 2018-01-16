@@ -37,8 +37,9 @@ module Hanoi
 
     describe ConstrainedTowers do
       context 'follow the rules' do
-        [2, 3, 4, 5, 6, 7, 8].each do |discs|
+        [2, 3, 4, 5, 6, 7].each do |discs|
           towers = ConstrainedTowers.new discs
+
           goal = towers.stacks[0].clone
 
           it 'plays by the rules with %s discs' % discs do
