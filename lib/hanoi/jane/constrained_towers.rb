@@ -1,7 +1,7 @@
 module Hanoi
   module Jane
     class ConstrainedTowers < Towers
-      def initialize discs
+      def initialize discs = 3
         super
         @base = 3
       end
