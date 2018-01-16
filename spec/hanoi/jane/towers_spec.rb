@@ -34,8 +34,37 @@ module Hanoi
       context 'find a destination stack' do
         it 'finds the next-door stack' do
           stacks = [[2, 1, 0], [], []]
-          expect(Towers.find_stack stacks, 0, 0, 0).to eq 1
+          expect(Towers.find_stack stacks: stacks, source: 0, disc: 0).to eq 1
+        end
 
+        it 'finds the next-but-one stack' do
+          stacks = [[2, 1], [0], []]
+          expect(Towers.find_stack stacks: stacks, source: 0, disc: 1).to eq 2
+        end
+
+        it 'wraps around correctly' do
+          stacks = [[], [2], [1, 0]]
+          expect(Towers.find_stack stacks: stacks, source: 1, disc: 2).to eq 0
+        end
+      end
+
+      context 'rebase a number' do
+        it 'makes a binary string' do
+          expect(Towers.rebase 12, 2, 5).to eq '01100'
+        end
+
+        it 'makes a ternary string' do
+          expect(Towers.rebase 19, 3, 4).to eq '0201'
+        end
+      end
+
+      context 'diff strings' do
+        it 'diffs a binary string' do
+          expect(Towers.diff '001', '010').to eq 1
+        end
+
+        it 'diffs a ternary string' do
+          expect(Towers.diff '011', '012').to eq 0
         end
       end
     end

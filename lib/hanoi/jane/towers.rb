@@ -1,8 +1,8 @@
 module Hanoi
   module Jane
     class Towers
-      attr_reader :total, :stacks
-      attr_accessor :discs, :base
+      attr_reader   :stacks, :total, :base
+      attr_accessor :discs 
 
       def initialize discs = 3
         @discs = discs
@@ -14,9 +14,14 @@ module Hanoi
       end
 
       def move
-        diff
+        before = binary
+        @total += 1
+        after = binary
+
+        @disc = Towers.diff before, after
+
         @source = Towers.find_disc @stacks, @disc
-        @sink = self.class.find_stack @stacks, @source, @disc, @total
+        @sink = self.class.find_stack stacks: @stacks, source: @source, disc: @disc, total: @total
         @stacks[@sink].push @stacks[@source].pop
       end
 
@@ -66,13 +71,10 @@ module Hanoi
         Towers.rebase @total, @base, @discs
       end
 
-      def diff
-        this = binary
-        @total += 1
-        that = binary
+      def Towers.diff this, that
         this.chars.reverse.each_with_index do |bit, index|
           if bit < that.chars.reverse[index]
-            @disc = index
+          return index
           end
         end
       end
@@ -89,7 +91,7 @@ module Hanoi
         raise SearchException.new '%s not found in stacks' % disc
       end
 
-      def Towers.find_stack stacks, source, disc, total
+      def Towers.find_stack stacks:, source:, disc:, total: nil
         # if the next stack is empty, move there
         if stacks[(source + 1) % 3] == []
           return (source + 1) % 3
