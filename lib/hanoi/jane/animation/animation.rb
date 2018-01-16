@@ -1,40 +1,29 @@
 module Hanoi
   module Jane
     class Animation
+      attr_accessor :stacks, :disc, :from, :to, :height
 
-      # def animate
-      #   @drop = true unless @lift
-      #   if @lift
-      #     stack = @stacks[@source]
-      #     @position = stack.index @disc
-      #     stack[@position] = nil
-      #
-      #     if @position + 1 >= @height
-      #       @lift = false
-      #     else
-      #       stack[@position + 1] = @disc
-      #     end
-      #
-      #     @stacks[@source] = stack
-      #   end
-      #
-      #   if @drop
-      #     stack = @stacks[@destination]
-      #     @position = -1 unless @position
-      #
-      #     stack[@position] = @disc
-      #     stack[(stack.index @disc) + 1] = nil
-      #
-      #     @position -= 1
-      #
-      #     @stacks[@destination] = stack.take @height
-      #
-      #     if stack[@position] || @position == 0
-      #       @drop = false
-      #       @done = true
-      #     end
-      #   end
-      # end
+      def initialize
+        @stacks = [[0]]
+        @disc = 0
+        @from = 0
+        @to = 1
+        @height = 7
+
+        yield self if block_given?
+
+        @stacks = PaddedStacks.new @stacks, @height
+        @lifter = Lifter.new @stacks[@from]
+        @dropper = Dropper.new @stacks[@to], @disc
+      end
+
+      def each
+        unless @lifter.lifted
+          @lifter.lift
+          @stacks[@from] = @lifter
+          yield self
+        end
+      end
     end
   end
 end

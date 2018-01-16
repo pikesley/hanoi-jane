@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class Lifter < Array
+      attr_reader :lifted
+      
       def initialize stack
         stack.map { |i| self.push i }
         @lifted = false
