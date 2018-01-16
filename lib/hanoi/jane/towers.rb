@@ -2,15 +2,20 @@ module Hanoi
   module Jane
     class Towers
       attr_reader   :stacks, :total, :base
-      attr_accessor :discs 
+      attr_accessor :discs
 
       def initialize discs = 3
         @discs = discs
         @total = 0
         @base = 2
-        @stacks = [(0...discs).to_a.reverse, [], []]
+        @stacks = [(0...@discs).to_a.reverse, [], []]
 
         yield self if block_given?
+      end
+
+      def discs= discs
+        @discs = discs
+        @stacks = [(0...@discs).to_a.reverse, [], []]
       end
 
       def move

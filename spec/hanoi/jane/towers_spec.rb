@@ -9,9 +9,9 @@ module Hanoi
 
         it 'takes a block' do
           towers = Towers.new do |t|
-            t.discs = 3
+            t.discs = 4
           end
-          expect(towers.discs).to eq 3
+          expect(towers.discs).to eq 4
         end
       end
 

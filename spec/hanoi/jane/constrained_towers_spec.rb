@@ -13,6 +13,16 @@ module Hanoi
           end
           expect(towers.discs).to eq 3
         end
+
+        it 'resets the stacks when discs are speficied' do
+          towers = ConstrainedTowers.new do |t|
+            t.discs = 5
+          end
+          expect(towers.discs).to eq 5
+          expect(towers.stacks).to eq [
+            [4, 3, 2, 1, 0], [], []
+          ]
+        end
       end
 
       context 'find a destination stack' do
