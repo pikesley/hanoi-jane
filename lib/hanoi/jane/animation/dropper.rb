@@ -16,7 +16,7 @@ module Hanoi
       end
 
       def dropped
-        self[(Dropper.position self, @item) - 1]
+        self[(Dropper.position self, @item) - 1] || (Dropper.position self, @item) == 0
       end
 
       def each

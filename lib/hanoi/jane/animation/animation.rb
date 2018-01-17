@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class Animation
+      include Enumerable
+
       attr_accessor :stacks, :disc, :from, :to, :height
 
       def initialize
@@ -18,9 +20,13 @@ module Hanoi
       end
 
       def each
-        unless @lifter.lifted
-          @lifter.lift
-          @stacks[@from] = @lifter
+        @lifter.each do |state|
+          @stacks[@from] = state
+          yield self
+        end
+
+        @dropper.each do |state|
+          @stacks[@to] = state
           yield self
         end
       end

@@ -33,18 +33,17 @@ module Hanoi
           a.height = 3
         end
 
-        # [
-        #   [[1, nil, 0], [nil, nil, nil], [nil, nil, nil]],
-        #   [[1, nil, nil], [nil, nil, nil], [nil, nil, nil]]
-        # ].each_with_index do |state, index|
-        #   specify 'state #d is correct' % index do
-        #     anim.animate
-        #     expect(anim.stacks).to eq state
-        #   end
-        # end
+        expected = [
+          [[1, nil, 0], [nil, nil, nil], [nil, nil, nil]],
+          [[1, nil, nil], [nil, nil, nil], [nil, nil, nil]],
+          [[1, nil, nil], [nil, nil, 0], [nil, nil, nil]],
+          [[1, nil, nil], [nil, 0, nil], [nil, nil, nil]]
+        ]
 
-        anim.each do |frame|
-          puts frame.stacks.inspect
+        it 'produces the correct frames' do
+          anim.each_with_index do |frame, index| 
+            expect(frame.stacks).to eq expected[index]
+          end
         end
       end
     end
