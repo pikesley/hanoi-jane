@@ -15,15 +15,19 @@ module Hanoi
       option :interval, type: :numeric, default: 0.1
 
       def phat
-        towers = AnimatedTowers.new do |a|
+        at = AnimatedTowers.new do |a|
           a.towers = ConstrainedTowers
           a.discs = 5
           a.height = 7
         end
 
-        towers.each do |state|
-          Hanoi::Jane.hit_phat state.stacks, options[:phat]
-          sleep options[:interval]
+        at.each do |frame|
+          Hanoi::Jane.hit_phat frame.stacks, frame.value, options[:phat]
+          interval = options[:interval]
+          if frame.type == :tween
+            interval = interval * 0.1
+          end
+          sleep interval
         end
       end
     end

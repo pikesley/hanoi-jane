@@ -21,12 +21,12 @@ module Hanoi
 
       def each
         @lifter.each do |state|
-          @stacks[@from] = state
+          @stacks[@from] = state.to_a
           yield self
         end
 
         @dropper.each do |state|
-          @stacks[@to] = state
+          @stacks[@to] = state.to_a
           yield self
         end
       end

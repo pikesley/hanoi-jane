@@ -70,11 +70,11 @@ module Hanoi
         rebased
       end
 
-      private
-
       def rebased
         Towers.rebase @total, @base, @discs
       end
+
+      private
 
       def Towers.diff this, that
         this.chars.reverse.each_with_index do |bit, index|

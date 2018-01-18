@@ -23,10 +23,10 @@ require 'hanoi/jane/formatters/console'
 
 module Hanoi
   module Jane
-    def self.hit_phat stacks, phat
+    def self.hit_phat stacks, value, phat
       matrix = Formatters::Matrix.new do |m|
         m.stacks = stacks
-        m.digits = '000'
+        m.digits = value
       end
       matrix.populate
 

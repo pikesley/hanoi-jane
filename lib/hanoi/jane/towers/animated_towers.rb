@@ -14,9 +14,9 @@ module Hanoi
       def each
         until @towers.solved
           stacks = PaddedStacks.new @towers.stacks, @height
-
+          value = @towers.rebased
           @towers.move
-          yield Frame.new stacks, :key
+          yield Frame.new stacks, value, :key
 
           @anim = Animation.new do |a|
             a.stacks = stacks
@@ -27,18 +27,20 @@ module Hanoi
           end
 
           @anim.each do |frame|
-            yield Frame.new frame.stacks, :tween
+            yield Frame.new frame.stacks, @towers.rebased, :tween
           end
         end
 
-        yield Frame.new (PaddedStacks.new @towers.stacks, @height), :key
+        yield Frame.new (PaddedStacks.new @towers.stacks, @height), @towers.rebased, :key
       end
     end
 
     class Frame
-      attr_reader :stacks, :type
-      def initialize stacks, type
+      attr_reader :stacks, :type, :value
+
+      def initialize stacks, value, type
         @stacks = stacks
+        @value = value
         @type = type
       end
 
