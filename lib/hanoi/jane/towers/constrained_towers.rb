@@ -18,9 +18,9 @@ module Hanoi
 
       private
 
-      def ConstrainedTowers.find_stack stacks:, source:, disc: nil, total:
+      def ConstrainedTowers.find_stack stacks:, from:, disc: nil, total:
         # if we're in the middle
-        if source == 1
+        if from == 1
           # we always move to the right on an even total
           if total % 2 == 0
             return 2

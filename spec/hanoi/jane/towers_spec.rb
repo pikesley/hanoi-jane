@@ -34,17 +34,17 @@ module Hanoi
       context 'find a destination stack' do
         it 'finds the next-door stack' do
           stacks = [[2, 1, 0], [], []]
-          expect(Towers.find_stack stacks: stacks, source: 0, disc: 0).to eq 1
+          expect(Towers.find_stack stacks: stacks, from: 0, disc: 0).to eq 1
         end
 
         it 'finds the next-but-one stack' do
           stacks = [[2, 1], [0], []]
-          expect(Towers.find_stack stacks: stacks, source: 0, disc: 1).to eq 2
+          expect(Towers.find_stack stacks: stacks, from: 0, disc: 1).to eq 2
         end
 
         it 'wraps around correctly' do
           stacks = [[], [2], [1, 0]]
-          expect(Towers.find_stack stacks: stacks, source: 1, disc: 2).to eq 0
+          expect(Towers.find_stack stacks: stacks, from: 1, disc: 2).to eq 0
         end
       end
 

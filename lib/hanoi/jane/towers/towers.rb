@@ -1,7 +1,7 @@
 module Hanoi
   module Jane
     class Towers
-      attr_reader   :stacks, :total, :base, :disc, :source, :sink
+      attr_reader   :stacks, :total, :base, :disc, :from, :to
       attr_accessor :discs
 
       def initialize discs = 3
@@ -25,9 +25,9 @@ module Hanoi
 
         @disc = Towers.diff before, after
 
-        @source = Towers.find_disc @stacks, @disc
-        @sink = self.class.find_stack stacks: @stacks, source: @source, disc: @disc, total: @total
-        @stacks[@sink].push @stacks[@source].pop
+        @from = Towers.find_disc @stacks, @disc
+        @to = self.class.find_stack stacks: @stacks, from: @from, disc: @disc, total: @total
+        @stacks[@to].push @stacks[@from].pop
       end
 
       def solved
@@ -41,8 +41,8 @@ module Hanoi
           binary: rebased,
           moved: {
             disc: @disc,
-            from: @source,
-            to: @sink
+            from: @from,
+            to: @to
           }
         }
       end
@@ -96,19 +96,19 @@ module Hanoi
         raise SearchException.new '%s not found in stacks' % disc
       end
 
-      def Towers.find_stack stacks:, source:, disc:, total: nil
+      def Towers.find_stack stacks:, from:, disc:, total: nil
         # if the next stack is empty, move there
-        if stacks[(source + 1) % 3] == []
-          return (source + 1) % 3
+        if stacks[(from + 1) % 3] == []
+          return (from + 1) % 3
         end
 
         # if the next stack has a smaller top disc than our disc, go one more over
-        if stacks[(source + 1) % 3][-1] < disc
-          return (source + 2) % 3
+        if stacks[(from + 1) % 3][-1] < disc
+          return (from + 2) % 3
         end
 
         # default to the next one
-        return (source + 1) % 3
+        return (from + 1) % 3
       end
     end
 

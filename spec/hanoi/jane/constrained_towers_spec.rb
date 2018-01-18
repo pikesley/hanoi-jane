@@ -28,22 +28,22 @@ module Hanoi
       context 'find a destination stack' do
         it 'moves from the right to the middle' do
           stacks = [[2, 1], [], [0]]
-          expect(ConstrainedTowers.find_stack stacks: stacks, source: 2, total: 0).to eq 1
+          expect(ConstrainedTowers.find_stack stacks: stacks, from: 2, total: 0).to eq 1
         end
 
         it 'moves from the left to the middle' do
           stacks = [[2, 1], [], [0]]
-          expect(ConstrainedTowers.find_stack stacks: stacks, source: 0, total: 0).to eq 1
+          expect(ConstrainedTowers.find_stack stacks: stacks, from: 0, total: 0).to eq 1
         end
 
         it 'moves left on an odd total' do
           stacks = [[], [2], [1, 0]]
-          expect(ConstrainedTowers.find_stack stacks: stacks, source: 1, total: 3).to eq 0
+          expect(ConstrainedTowers.find_stack stacks: stacks, from: 1, total: 3).to eq 0
         end
 
         it 'moves right on an odd total' do
           stacks = [[1, 0], [2], []]
-          expect(ConstrainedTowers.find_stack stacks: stacks, source: 1, total: 6).to eq 2
+          expect(ConstrainedTowers.find_stack stacks: stacks, from: 1, total: 6).to eq 2
         end
       end
     end

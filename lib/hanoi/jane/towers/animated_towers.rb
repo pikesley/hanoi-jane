@@ -21,8 +21,8 @@ module Hanoi
           @anim = Animation.new do |a|
             a.stacks = stacks
             a.disc = @towers.disc
-            a.from = @towers.source
-            a.to = @towers.sink
+            a.from = @towers.from
+            a.to = @towers.to
             a.height = @height
           end
 
