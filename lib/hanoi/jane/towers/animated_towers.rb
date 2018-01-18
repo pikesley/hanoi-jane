@@ -43,10 +43,6 @@ module Hanoi
         @value = value
         @type = type
       end
-
-      def to_s
-        "%5s: %s" % [@type, @stacks.inspect]
-      end
     end
   end
 end

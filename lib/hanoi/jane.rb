@@ -12,11 +12,11 @@ require 'hanoi/jane/config'
 require 'hanoi/jane/towers/towers'
 require 'hanoi/jane/towers/constrained_towers'
 require 'hanoi/jane/towers/animated_towers'
-require 'hanoi/jane/padded_stacks'
 
 require 'hanoi/jane/animation/animation'
 require 'hanoi/jane/animation/lifter'
 require 'hanoi/jane/animation/dropper'
+require 'hanoi/jane/animation/padded_stacks'
 
 require 'hanoi/jane/formatters/matrix'
 require 'hanoi/jane/formatters/console'
