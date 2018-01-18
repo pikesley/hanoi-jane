@@ -1,7 +1,7 @@
 module Hanoi
   module Jane
     class Towers
-      attr_reader   :stacks, :total, :base
+      attr_reader   :stacks, :total, :base, :disc, :source, :sink
       attr_accessor :discs
 
       def initialize discs = 3

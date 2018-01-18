@@ -21,6 +21,7 @@ module Hanoi
       end
 
       context 'animate' do
+        it 'produces the correct frames' do
         stacks = [
           [1, 0], [], []
         ]
@@ -40,8 +41,56 @@ module Hanoi
           [[1, nil, nil], [nil, 0, nil], [nil, nil, nil]]
         ]
 
-        it 'produces the correct frames' do
-          anim.each_with_index do |frame, index| 
+          anim.each_with_index do |frame, index|
+            expect(frame.stacks).to eq expected[index]
+          end
+        end
+
+        it 'deals with different from and to stacks' do
+          stacks = [
+            [2], [1], []
+          ]
+
+          anim = Animation.new do |a|
+            a.stacks = stacks
+            a.disc = 1
+            a.from = 1
+            a.to = 2
+            a.height = 3
+          end
+
+          expected = [
+            [[2, nil, nil], [nil, 1, nil], [nil, nil, nil]],
+            [[2, nil, nil], [nil, nil, 1], [nil, nil, nil]],
+            [[2, nil, nil], [nil, nil, nil], [nil, nil, nil]],
+            [[2, nil, nil], [nil, nil, nil], [nil, nil, 1]],
+            [[2, nil, nil], [nil, nil, nil], [nil, 1, nil]]
+          ]
+
+          anim.each_with_index do |frame, index|
+            expect(frame.stacks).to eq expected[index]
+          end
+        end
+
+        it 'handles a 2-to-1 case' do
+          stacks = [
+            [], [1], [0]
+          ]
+
+          anim = Animation.new do |a|
+            a.stacks = stacks
+            a.disc = 1
+            a.from = 2
+            a.to = 1
+            a.height = 2
+          end
+
+          expected = [
+            [[nil, nil], [1, nil], [nil, 0]],
+            [[nil, nil], [1, nil], [nil, nil]]
+          ]
+
+          anim.each_with_index do |frame, index|
             expect(frame.stacks).to eq expected[index]
           end
         end

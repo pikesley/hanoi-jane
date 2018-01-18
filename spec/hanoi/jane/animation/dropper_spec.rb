@@ -14,26 +14,41 @@ module Hanoi
       context 'drop an item' do
         d = Dropper.new [1, nil, nil], 0
 
-        [
-          [1, nil, 0],
-          [1, 0, nil]
-        ].each_with_index do |state, index|
-          specify 'state #%d is correct' % index do
-            d.drop
-            expect(d).to eq state
+        it 'drops one position' do
+          d.drop
+          expect(d).to eq [1, nil, 0]
+        end
+
+        it 'does nothing when there is only a single space at the top' do
+          d = Dropper.new [2, 1, nil], 0
+          
+          count = 0
+          d.each do
+            count += 1
           end
+          expect(count).to eq 0
+          expect(d).to eq [2, 1, nil]
+        end
+
+        it 'stops dropping one position above the bottom' do
+          d = Dropper.new [2, nil, nil, nil, nil], 1
+          
+          d.each do
+            next
+          end
+          expect(d).to eq [2, nil, 1, nil, nil]
         end
       end
 
       context 'iterator' do
-        d = Dropper.new [2, 1, nil, nil, nil], 0
+        d = Dropper.new [2, 1, nil, nil, nil, nil, nil], 0
 
         it 'exposes an iterator' do
-          count = 1
+          count = 0
           d.each do
             count += 1
           end
-          expect(count).to eq 3
+          expect(count).to eq 4
         end
       end
     end

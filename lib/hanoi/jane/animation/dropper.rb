@@ -16,10 +16,10 @@ module Hanoi
       end
 
       def dropped
-        self[(Dropper.position self, @item) - 1] || (Dropper.position self, @item) == 0
+        (self[(Dropper.position self, @item) - 1] || self[(Dropper.position self, @item)]) || (Dropper.position self, @item) == 0
       end
 
-      def each
+      def each 
         until dropped
           drop
           yield self
