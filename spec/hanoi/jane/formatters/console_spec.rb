@@ -1,25 +1,41 @@
 module Hanoi
   module Jane
-    describe Towers do
-      towers = Towers.new 3
-
-      it 'has the correct initial content' do
-        expect(towers.console).to eq "    o       |       |    \n   ooo      |       |    \n  ooooo     |       |    \n-------------------------\n"
-      end
-
-      it 'has the correct first-state content' do
-        towers.move
-        expect(towers.console).to eq "    |       |       |    \n   ooo      |       |    \n  ooooo     o       |    \n-------------------------\n"
-      end
-
-      it 'has the correct second-state content' do
-        towers.move
-        expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n  ooooo     o      ooo   \n-------------------------\n"
-      end
-    end
+    # describe Towers do
+    #   towers = Towers.new 3
+    #
+    #   it 'has the correct initial content' do
+    #     expect(towers.console).to eq "    o       |       |    \n   ooo      |       |    \n  ooooo     |       |    \n-------------------------\n"
+    #   end
+    #
+    #   it 'has the correct first-state content' do
+    #     towers.move
+    #     expect(towers.console).to eq "    |       |       |    \n   ooo      |       |    \n  ooooo     o       |    \n-------------------------\n"
+    #   end
+    #
+    #   it 'has the correct second-state content' do
+    #     towers.move
+    #     expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n  ooooo     o      ooo   \n-------------------------\n"
+    #   end
+    # end
 
     module Formatters
       describe Console do
+        context 'constructor' do
+          it 'has defaults' do
+            console = Console.new
+            expect(console.height).to eq 0
+          end
+
+          it 'takes a block' do
+            console = Console.new do |c|
+              c.height = 6
+              c.stacks = [[3, 2, 1, 0], [], []]
+            end
+            expect(console.height).to eq 6
+            expect(console.stacks).to eq [[3, 2, 1, 0], [], []]
+          end
+        end
+
         it 'rotates the initial state' do
           expect(Console.rotate [[2, 1, 0], [nil, nil, nil], [nil, nil, nil]]).to eq [
             [0, nil, nil],

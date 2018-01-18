@@ -3,6 +3,7 @@ module Hanoi
     describe Towers do
       it 'exposes an iterator' do
         towers = Towers.new 3
+
         goal = towers.stacks[0].clone
 
         towers.each do |state|
@@ -17,7 +18,9 @@ module Hanoi
 
     describe ConstrainedTowers do
       it 'exposes an iterator' do
-        towers = ConstrainedTowers.new 4
+        towers = ConstrainedTowers.new do |t|
+          t.discs = 4
+        end
         goal = towers.stacks[0].clone
 
         towers.each do |state|

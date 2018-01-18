@@ -1,21 +1,38 @@
+require 'singleton'
+require 'yaml'
+require 'ostruct'
+
 require 'thor'
 require 'httparty'
 
 require 'hanoi/jane/version'
 
-require 'hanoi/jane/towers'
-require 'hanoi/jane/constrained_towers'
-require 'hanoi/jane/animation'
+require 'hanoi/jane/config'
+
+require 'hanoi/jane/towers/towers'
+require 'hanoi/jane/towers/constrained_towers'
+require 'hanoi/jane/towers/animated_towers'
+
+require 'hanoi/jane/animation/animation'
+require 'hanoi/jane/animation/lifter'
+require 'hanoi/jane/animation/dropper'
+require 'hanoi/jane/animation/padded_stacks'
 
 require 'hanoi/jane/formatters/matrix'
 require 'hanoi/jane/formatters/console'
 
 module Hanoi
   module Jane
-    def self.hit_phat towers, phat
+    def self.hit_phat stacks, value, phat
+      matrix = Formatters::Matrix.new do |m|
+        m.stacks = stacks
+        m.digits = value
+      end
+      matrix.populate
+
       url = "http://#{phat}/lights"
       payload = {
-        matrix: towers.matrix
+        matrix: matrix
       }
       headers = {
         'Content-Type' => 'application/json',

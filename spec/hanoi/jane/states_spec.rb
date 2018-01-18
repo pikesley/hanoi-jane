@@ -1,7 +1,9 @@
 module Hanoi
   module Jane
     describe Towers do
-      towers = Towers.new 3
+      towers = Towers.new do |t|
+        t.discs = 3
+      end
 
       it 'has the correct initial state' do
         expect(towers.binary).to eq '000'
