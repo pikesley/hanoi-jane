@@ -11,7 +11,7 @@ module Hanoi
         end
 
         def to_s
-          require "pry" ; binding.pry
+          (Console.assemble stacks).map { |r| r.join '' }.join "\n"
         end
 
         def Console.assemble stacks
