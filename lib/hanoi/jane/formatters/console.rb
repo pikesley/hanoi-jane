@@ -2,28 +2,37 @@ module Hanoi
   module Jane
     module Formatters
       class Console
-        attr_accessor :stacks
-
-        CHARS = Config.instance.config.chars['regular']
+        attr_accessor :stacks, :fancy
 
         def initialize
+          @fancy = false
+
           yield self if block_given?
         end
 
         def to_s
-          (Console.assemble stacks).map { |r| r.join '' }.join "\n"
+          (Console.assemble stacks, @fancy).map { |r| r.join '' }.join "\n"
         end
 
-        def Console.assemble stacks
+        def Console.construct stacks
           a = []
           (Console.rotate stacks).each_with_index do |r, index|
             divided = (index + 1) == stacks.first.length ? true : false
             a.push Console.row r, widest: Console.biggest(stacks), divided: divided
           end
 
-          a.push ['-'] * a[0].length
+          a.push [:horiz_divider] * a[0].length
 
           a
+        end
+
+        def Console.assemble stacks, fancy = false
+          charset = fancy ? 'fancy' : 'regular'
+          (Console.construct stacks).map do
+            |r| r.map do |c|
+              Config.instance.config.chars[charset][c.to_s]
+            end
+          end
         end
 
         def Console.biggest stacks
@@ -31,15 +40,15 @@ module Hanoi
         end
 
         def Console.disc size, width
-          return [CHARS['space']] * Console.scale(width) unless size
+          return [:space] * Console.scale(width) unless size
           content = Console.scale size
           gap = (Console.scale(width) - content) / 2
 
-          output = [CHARS['disc']] * content
+          output = [:disc] * content
 
           gap.times do
             [:unshift, :push].each do |method|
-              output.send(method, CHARS['space'])
+              output.send(method, :space)
             end
           end
 
@@ -47,8 +56,8 @@ module Hanoi
         end
 
         def Console.row starter, widest:, spacing: 1, divided: false
-          filler = [CHARS['space']] * spacing
-          filler = [CHARS['vert_divider']] if divided
+          filler = [:space] * spacing
+          filler = [:vert_divider] if divided
           starter.map { |d|
             Console.disc d, widest
           }.flat_map { |d|

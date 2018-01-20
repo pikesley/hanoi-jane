@@ -36,6 +36,7 @@ module Hanoi
       option :constrained, type: :boolean, default: true
       option :interval, type: :numeric, default: 0.5
       option :height, type: :numeric, default: 2
+      option :fancy, type: :boolean, default: false
 
       def console
         at = AnimatedTowers.new do |a|
@@ -49,6 +50,7 @@ module Hanoi
 
           c = Formatters::Console.new do |c|
             c.stacks = frame.stacks
+            c.fancy = options[:fancy]
           end
 
           puts frame.value
