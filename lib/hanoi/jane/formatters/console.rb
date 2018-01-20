@@ -2,62 +2,50 @@ module Hanoi
   module Jane
     module Formatters
       class Console
-        attr_accessor :height
-        attr_reader   :stacks
+        attr_accessor :stacks
 
-        @@chars = Config.instance.config.chars['regular']
+        CHARS = Config.instance.config.chars['regular']
 
         def initialize
-          @height = 0
-
           yield self if block_given?
         end
 
-        def stacks= stacks
-          @stacks = stacks.clone.map { |s| s.clone }
-        end
-
-        # def fancy= fancy
-        #   @@chars = Config.instance.config.chars.fancy if fancy
-        # end
-
         def to_s
-          s = ''
-          joiner = @@chars['space']
-
-          (Console.rotate @stacks.map { |s| (Console.pad s, @discs).reverse }).each_with_index do |stack, i|
-            joiner = @@chars['vert_divider'] if i == @discs
-
-            s += "%s%s%s\n" % [
-              joiner,
-              stack.map { |s| Console.make_disc s, (Console.scale @discs) }.join(joiner),
-              joiner
-            ]
-
-          end
-
-          s += "%s\n" % [@@chars['horiz_divider'] * (4 + (Console.scale @discs) * 3)]
+          require "pry" ; binding.pry
         end
 
-        def Console.pad array, length
-          Array.new(length - array.length) + array.reverse
+        def Console.assemble stacks
+          (Console.rotate stacks).map do |r|
+            Console.row r, widest: Console.biggest(stacks)
+          end
         end
 
-        def Console.make_disc width, space
-          char = @@chars['disc']
-          unless width
-            width = 0
-            char = @@chars['pole']
+        def Console.biggest stacks
+          stacks.map { |s| s.compact.max }.compact.max
+        end
+
+        def Console.disc size, width
+          return [CHARS['space']] * Console.scale(width) unless size
+          content = Console.scale size
+          gap = (Console.scale(width) - content) / 2
+
+          output = [CHARS['disc']] * content
+
+          gap.times do
+            [:unshift, :push].each do |method|
+              output.send(method, CHARS['space'])
+            end
           end
 
-          count = Console.scale width
-          padding = (space - count) / 2
+          output
+        end
 
-          '%s%s%s' % [
-            @@chars['space'] * padding,
-            char * count,
-            @@chars['space'] * padding
-          ]
+        def Console.row starter, widest:, space: 1
+          starter.map { |d|
+            Console.disc d, widest
+          }.flat_map { |d|
+            [d, CHARS['space']]
+          }.unshift(CHARS['space']).flatten
         end
 
         def Console.scale size
@@ -66,11 +54,6 @@ module Hanoi
 
         def Console.rotate stacks
           stacks.map { |s| s.clone }.transpose.reverse
-        end
-
-        def Console.fancify number
-          fancy_digits = '012'
-          number.chars.map { |d| fancy_digits[d] }.join ' '
         end
       end
     end

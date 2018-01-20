@@ -1,78 +1,82 @@
 module Hanoi
   module Jane
-    # describe Towers do
-    #   towers = Towers.new 3
-    #
-    #   it 'has the correct initial content' do
-    #     expect(towers.console).to eq "    o       |       |    \n   ooo      |       |    \n  ooooo     |       |    \n-------------------------\n"
-    #   end
-    #
-    #   it 'has the correct first-state content' do
-    #     towers.move
-    #     expect(towers.console).to eq "    |       |       |    \n   ooo      |       |    \n  ooooo     o       |    \n-------------------------\n"
-    #   end
-    #
-    #   it 'has the correct second-state content' do
-    #     towers.move
-    #     expect(towers.console).to eq "    |       |       |    \n    |       |       |    \n  ooooo     o      ooo   \n-------------------------\n"
-    #   end
-    # end
-
     module Formatters
       describe Console do
-        context 'constructor' do
-          it 'has defaults' do
-            console = Console.new
-            expect(console.height).to eq 0
-          end
-
-          it 'takes a block' do
-            console = Console.new do |c|
-              c.height = 6
-              c.stacks = [[3, 2, 1, 0], [], []]
+        context 'rotations' do
+          {
+            [[2, 1, 0], [nil, nil, nil], [nil, nil, nil]] =>
+            [[0, nil, nil], [1, nil, nil], [2, nil, nil]],
+            [[2, 1, nil], [0, nil, nil], [nil, nil, nil]] =>
+            [[nil, nil, nil], [1, nil, nil], [2, 0, nil]],
+            [[2, nil, nil], [0, nil, nil], [1, nil, nil]] =>
+            [[nil, nil, nil], [nil, nil, nil], [2, 0, 1]]
+          }.each_pair do |state, rotation|
+            it 'rotates %s' % [state] do
+              expect(Console.rotate state).to eq rotation
             end
-            expect(console.height).to eq 6
-            expect(console.stacks).to eq [[3, 2, 1, 0], [], []]
           end
         end
 
-        it 'rotates the initial state' do
-          expect(Console.rotate [[2, 1, 0], [nil, nil, nil], [nil, nil, nil]]).to eq [
-            [0, nil, nil],
-            [1, nil, nil],
-            [2, nil, nil]
-          ]
-        end
+        context 'make rows' do
+          context 'make discs' do
+            {
+              {disc: 0, width: 2} => [' ', ' ', 'o', ' ', ' '],
+              {disc: 1, width: 2} => [' ', 'o', 'o', 'o', ' ']
+            }.each do |args, disc|
+              it 'makes a %d disc for a max width of %d' % [args[:disc], args[:width]] do
+                expect(Console.disc args[:disc], args[:width]).to eq disc
+              end
+            end
 
-        it 'rotates the first state' do
-          expect(Console.rotate [[2, 1, nil], [0, nil, nil], [nil, nil, nil]]).to eq [
-            [nil, nil, nil],
-            [1, nil, nil],
-            [2, 0, nil]
-          ]
-        end
+            it 'makes a blank space' do
+              expect(Console.disc nil, 2).to eq [' ', ' ', ' ', ' ', ' ']
+            end
+          end
 
-        it 'rotates the second state' do
-          expect(Console.rotate [[2, nil, nil], [0, nil, nil], [1, nil, nil]]).to eq [
-            [nil, nil, nil],
-            [nil, nil, nil],
-            [2, 0, 1]
-          ]
-        end
+          it 'makes a simple row' do
+            expect(Console.row [0, nil, nil], widest: 2).to eq (
+              [' ', ' ', ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            )
+          end
 
-        it 'pads an array' do
-          expect(Console.pad [0], 3).to eq [nil, nil, 0]
-        end
-
-        it 'makes a disc' do
-          expect(Console.make_disc 0, 5).to eq '  o  '
-          expect(Console.make_disc nil, 5). to eq '  |  '
+          it 'makes a row with different spacing'
+          it 'makes a row with dividers'
         end
 
         it 'scales a size' do
           expect(Console.scale 0).to eq 1
           expect(Console.scale 1).to eq 3
           expect(Console.scale 2).to eq 5
+        end
+
+        context 'assemble layout' do
+          it 'finds the largest member of a stack set' do
+            expect(Console.biggest [[2, 1], [0, nil], [nil, nil]]).to eq 2
+          end
+
+          it 'makes a layout' do
+            expect(Console.assemble [[1, 0], [nil, nil], [nil, nil]]).to eq [
+              [' ', ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+              [' ', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            ]
+          end
+
+          it 'makes another layout' do
+            expect(Console.assemble [[2, 1, nil], [nil, nil, nil], [0, nil, nil]]).to eq [
+              [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+              [' ', ' ', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+              [' ', 'o', 'o', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o', ' ', ' ', ' ']
+            ]
+          end
+        end
+
+        context 'as a string' do
+          it 'produces a string artefact' do
+            console = Console.new do |c|
+              c.stacks = [[2, nil, nil], [1, nil, nil], [0, nil, nil]]
+            end
+            expect(console.to_s).to eq "                   \n                   \n ooooo  ooo    o   "
+          end
         end
       end
     end
