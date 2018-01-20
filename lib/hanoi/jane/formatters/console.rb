@@ -15,9 +15,15 @@ module Hanoi
         end
 
         def Console.assemble stacks
-          (Console.rotate stacks).map do |r|
-            Console.row r, widest: Console.biggest(stacks)
+          a = []
+          (Console.rotate stacks).each_with_index do |r, index|
+            divided = (index + 1) == stacks.first.length ? true : false
+            a.push Console.row r, widest: Console.biggest(stacks), divided: divided
           end
+
+          a.push ['-'] * a[0].length
+
+          a
         end
 
         def Console.biggest stacks
@@ -40,12 +46,14 @@ module Hanoi
           output
         end
 
-        def Console.row starter, widest:, space: 1
+        def Console.row starter, widest:, spacing: 1, divided: false
+          filler = [CHARS['space']] * spacing
+          filler = [CHARS['vert_divider']] if divided
           starter.map { |d|
             Console.disc d, widest
           }.flat_map { |d|
-            [d, CHARS['space']]
-          }.unshift(CHARS['space']).flatten
+            [d, filler]
+          }.unshift(filler).flatten
         end
 
         def Console.scale size

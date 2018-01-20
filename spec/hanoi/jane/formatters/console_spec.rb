@@ -39,8 +39,19 @@ module Hanoi
             )
           end
 
-          it 'makes a row with different spacing'
-          it 'makes a row with dividers'
+          it 'makes a row with different spacing' do
+            expect(Console.row [0, nil, nil], widest: 0, spacing: 3).to eq (
+              [' ', ' ', ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            )
+          end
+
+          it 'makes a row with dividers' do
+            expect(Console.row [0, nil, nil], widest: 1, divided: true).to eq (
+              ['|', ' ', 'o', ' ', '|', ' ', ' ', ' ', '|', ' ', ' ', ' ', '|']
+            )
+          end
+
+          it 'makes a row with dividers and different spacing'
         end
 
         it 'scales a size' do
@@ -57,7 +68,8 @@ module Hanoi
           it 'makes a layout' do
             expect(Console.assemble [[1, 0], [nil, nil], [nil, nil]]).to eq [
               [' ', ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-              [' ', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+              ['|', 'o', 'o', 'o', '|', ' ', ' ', ' ', '|', ' ', ' ', ' ', '|'],
+              ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
             ]
           end
 
@@ -65,7 +77,8 @@ module Hanoi
             expect(Console.assemble [[2, 1, nil], [nil, nil, nil], [0, nil, nil]]).to eq [
               [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
               [' ', ' ', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-              [' ', 'o', 'o', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o', ' ', ' ', ' ']
+              ['|', 'o', 'o', 'o', 'o', 'o', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', 'o', ' ', ' ', '|'],
+              ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
             ]
           end
         end
@@ -75,7 +88,7 @@ module Hanoi
             console = Console.new do |c|
               c.stacks = [[2, nil, nil], [1, nil, nil], [0, nil, nil]]
             end
-            expect(console.to_s).to eq "                   \n                   \n ooooo  ooo    o   "
+            expect(console.to_s).to eq "                   \n                   \n|ooooo| ooo |  o  |\n-------------------"
           end
         end
       end
