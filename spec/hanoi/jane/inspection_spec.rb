@@ -1,8 +1,8 @@
 module Hanoi
   module Jane
-    describe Towers do
+    describe RegularTowers do
       it 'exposes its state nicely' do
-        towers = Towers.new 3
+        towers = RegularTowers.new 3
         towers.move
         expect(towers.inspect).to eq ({
           stacks: [

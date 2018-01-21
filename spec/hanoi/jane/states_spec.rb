@@ -1,7 +1,7 @@
 module Hanoi
   module Jane
-    describe Towers do
-      towers = Towers.new do |t|
+    describe RegularTowers do
+      towers = RegularTowers.new do |t|
         t.discs = 3
       end
 

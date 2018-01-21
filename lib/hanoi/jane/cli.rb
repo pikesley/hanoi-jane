@@ -10,9 +10,9 @@ module Hanoi
       map %w(-v --version) => :version
 
       desc 'phat', "Solve the towers against the pHAT's webserver"
-      option :phat, type: :string, required: true
-      option :constrained, type: :boolean
-      option :interval, type: :numeric, default: 0.1
+      option :phat, type: :string, required: true, desc: 'Address of the pHAT you want to hit'
+      option :constrained, type: :boolean, desc: 'Solve the constrained variant'
+      option :interval, type: :numeric, default: 0.1, desc: 'Time between frames (ish)'
 
       def phat
         at = AnimatedTowers.new do |a|
@@ -32,38 +32,44 @@ module Hanoi
       end
 
       desc 'console', 'Solve the towers on the console'
-      option :discs, type: :numeric, default: 3
-      option :constrained, type: :boolean, default: true
-      option :interval, type: :numeric, default: 0.5
-      option :height, type: :numeric, default: 2
-      option :fancy, type: :boolean, default: false
+      option :discs, type: :numeric, default: 3, desc: 'Number of discs'
+      option :constrained, type: :boolean, default: true, desc: 'Solve the constrained variant'
+      option :interval, type: :numeric, default: 0.5, desc: 'Time between frames (ish)'
+      option :height, type: :numeric, default: 2, desc: 'Additional height above towers'
+      option :fancy, type: :boolean, default: false, desc: 'Draw the towers using emojis'
 
       def console
-        at = AnimatedTowers.new do |a|
-          a.towers = options[:constrained] ? ConstrainedTowers : Towers
-          a.discs = options[:discs]
-          a.height = options[:discs] + options[:height]
-        end
-
-        at.each do |frame|
-          system('clear')
-
-          c = Formatters::Console.new do |c|
-            c.stacks = frame.stacks
-            c.fancy = options[:fancy]
+        begin
+          at = AnimatedTowers.new do |a|
+            a.towers = options[:constrained] ? ConstrainedTowers : RegularTowers
+            a.discs = options[:discs]
+            a.height = options[:discs] + options[:height]
           end
 
-          puts frame.value
-          puts c
+          at.each do |frame|
+            system('clear')
 
-          interval = options[:interval]
-          if frame.type == :tween
-            interval = interval * 0.1
+            c = Formatters::Console.new do |c|
+              c.stacks = frame.stacks
+              c.fancy = options[:fancy]
+            end
+
+            puts frame.value
+            puts c
+
+            interval = options[:interval]
+            if frame.type == :tween
+              interval = interval * 0.1
+            end
+            sleep interval
           end
-          sleep interval
-        end
 
-        puts '%d moves to solve for %d discs' % [at.towers.total, at.discs]
+          puts '%d moves to solve for %d discs' % [at.towers.total, at.discs]
+
+        rescue HanoiException => he
+          puts he.text
+          system('exit')
+        end
       end
     end
   end

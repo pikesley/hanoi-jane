@@ -1,8 +1,8 @@
 module Hanoi
   module Jane
-    describe Towers do
+    describe RegularTowers do
       it 'exposes an iterator' do
-        towers = Towers.new 3
+        towers = RegularTowers.new 3
 
         goal = towers.stacks[0].clone
 

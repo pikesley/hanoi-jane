@@ -8,9 +8,10 @@ require 'httparty'
 require 'hanoi/jane/version'
 
 require 'hanoi/jane/config'
+require 'hanoi/jane/exceptions'
 
 require 'hanoi/jane/towers/stack_finders'
-require 'hanoi/jane/towers/towers'
+require 'hanoi/jane/towers/regular_towers'
 require 'hanoi/jane/towers/constrained_towers'
 require 'hanoi/jane/towers/animated_towers'
 

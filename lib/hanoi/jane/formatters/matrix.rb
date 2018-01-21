@@ -104,14 +104,6 @@ module Hanoi
           ((5 - (size + 1)) / 2).round
         end
       end
-
-      class MatrixException < Exception
-        attr_reader :text
-
-        def initialize text
-          @text = text
-        end
-      end
     end
   end
 end
