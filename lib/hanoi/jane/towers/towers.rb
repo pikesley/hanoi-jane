@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class Towers
+      extend RegularSearches
+
       attr_reader   :stacks, :total, :base, :disc, :from, :to
       attr_accessor :discs
 
@@ -94,21 +96,6 @@ module Hanoi
         end
 
         raise SearchException.new '%s not found in stacks' % disc
-      end
-
-      def Towers.find_stack stacks:, from:, disc:, total: nil
-        # if the next stack is empty, move there
-        if stacks[(from + 1) % 3] == []
-          return (from + 1) % 3
-        end
-
-        # if the next stack has a smaller top disc than our disc, go one more over
-        if stacks[(from + 1) % 3][-1] < disc
-          return (from + 2) % 3
-        end
-
-        # default to the next one
-        return (from + 1) % 3
       end
     end
 

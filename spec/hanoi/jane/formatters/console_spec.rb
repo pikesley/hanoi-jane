@@ -51,7 +51,7 @@ module Hanoi
             )
           end
 
-          it 'makes a row with dividers and different spacing'
+          it 'makes a row with dividers and different spacing' 
         end
 
         it 'scales a size' do

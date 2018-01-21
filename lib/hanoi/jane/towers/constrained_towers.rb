@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class ConstrainedTowers < Towers
+      extend ConstrainedSearches
+
       def initialize discs = 3
         super
         @base = 3
@@ -14,22 +16,6 @@ module Hanoi
         i = super
         i[:ternary] = i.delete :binary
         i
-      end
-
-      private
-
-      def ConstrainedTowers.find_stack stacks:, from:, disc: nil, total:
-        # if we're in the middle
-        if from == 1
-          # we always move to the right on an even total
-          if total % 2 == 0
-            return 2
-          else
-            return 0
-          end
-        end
-        # otherwise we're at the edges and can only move to the middle
-        1
       end
     end
   end
