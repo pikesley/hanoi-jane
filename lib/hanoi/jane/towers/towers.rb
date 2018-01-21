@@ -1,7 +1,7 @@
 module Hanoi
   module Jane
     class Towers
-      extend RegularSearches
+      extend StackFinder
 
       attr_reader   :stacks, :total, :base, :disc, :from, :to
       attr_accessor :discs

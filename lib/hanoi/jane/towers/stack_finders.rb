@@ -1,6 +1,6 @@
 module Hanoi
   module Jane
-    module RegularSearches
+    module StackFinder
       def find_stack stacks:, from:, disc:, total: nil
         # if the next stack is empty, move there
         if stacks[(from + 1) % 3] == []
@@ -17,7 +17,7 @@ module Hanoi
       end
     end
 
-    module ConstrainedSearches
+    module ConstrainedStackFinder
       def find_stack stacks:, from:, disc: nil, total:
         # if we're in the middle
         if from == 1
@@ -30,6 +30,23 @@ module Hanoi
         end
         # otherwise we're at the edges and can only move to the middle
         1
+      end
+    end
+
+    module Constraints
+      def initialize discs = 3
+        super
+        @base = 3
+      end
+
+      def ternary
+        rebased
+      end
+
+      def inspect
+        i = super
+        i[:ternary] = i.delete :binary
+        i
       end
     end
   end
