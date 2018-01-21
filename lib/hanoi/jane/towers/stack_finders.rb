@@ -32,22 +32,5 @@ module Hanoi
         1
       end
     end
-
-    module Constraints
-      def initialize discs = 3
-        super
-        @base = 3
-      end
-
-      def ternary
-        rebased
-      end
-
-      def inspect
-        i = super
-        i[:ternary] = i.delete :binary
-        i
-      end
-    end
   end
 end

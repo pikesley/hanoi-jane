@@ -50,8 +50,6 @@ module Hanoi
               [:vert_divider, :space, :disc, :space, :vert_divider, :space, :space, :space, :vert_divider, :space, :space, :space, :vert_divider]
             )
           end
-
-          it 'makes a row with dividers and different spacing' 
         end
 
         it 'scales a size' do
@@ -66,7 +64,7 @@ module Hanoi
           end
 
           it 'makes a layout' do
-            expect(Console.assemble [[1, 0], [nil, nil], [nil, nil]]).to eq [
+            expect(Console.populate [[1, 0], [nil, nil], [nil, nil]]).to eq [
               [' ', ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
               ['|', 'o', 'o', 'o', '|', ' ', ' ', ' ', '|', ' ', ' ', ' ', '|'],
               ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
@@ -74,7 +72,7 @@ module Hanoi
           end
 
           it 'makes another layout' do
-            expect(Console.assemble [[2, 1, nil], [nil, nil, nil], [0, nil, nil]]).to eq [
+            expect(Console.populate [[2, 1, nil], [nil, nil, nil], [0, nil, nil]]).to eq [
               [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
               [' ', ' ', 'o', 'o', 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
               ['|', 'o', 'o', 'o', 'o', 'o', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', 'o', ' ', ' ', '|'],

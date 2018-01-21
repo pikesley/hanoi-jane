@@ -11,10 +11,10 @@ module Hanoi
         end
 
         def to_s
-          (Console.assemble stacks, @fancy).map { |r| r.join '' }.join "\n"
+          (Console.populate stacks, @fancy).map { |r| r.join '' }.join "\n"
         end
 
-        def Console.construct stacks
+        def Console.assemble stacks
           a = []
           (Console.rotate stacks).each_with_index do |r, index|
             divided = (index + 1) == stacks.first.length ? true : false
@@ -26,9 +26,9 @@ module Hanoi
           a
         end
 
-        def Console.assemble stacks, fancy = false
+        def Console.populate stacks, fancy = false
           charset = fancy ? 'fancy' : 'regular'
-          (Console.construct stacks).map do
+          (Console.assemble stacks).map do
             |r| r.map do |c|
               Config.instance.config.chars[charset][c.to_s]
             end
@@ -58,6 +58,7 @@ module Hanoi
         def Console.row starter, widest:, spacing: 1, divided: false
           filler = [:space] * spacing
           filler = [:vert_divider] if divided
+
           starter.map { |d|
             Console.disc d, widest
           }.flat_map { |d|
