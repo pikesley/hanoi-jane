@@ -1,23 +1,25 @@
 module Hanoi
   module Jane
-    class Towers
+    class RegularTowers
+      include Enumerable
+
       extend StackFinder
 
-      attr_reader   :stacks, :total, :base, :disc, :from, :to
-      attr_accessor :discs
+      attr_reader   :total, :base, :disc, :from, :to, :discs
+      attr_accessor :stacks
 
       def initialize discs = 3
         @discs = discs
         @total = 0
         @base = 2
-        @stacks = Towers.starter_stacks @discs
+        @stacks = self.class.starter_stacks @discs
 
         yield self if block_given?
       end
 
       def discs= discs
         @discs = discs
-        @stacks = Towers.starter_stacks @discs
+        @stacks = self.class.starter_stacks @discs
       end
 
       def move
@@ -25,9 +27,9 @@ module Hanoi
         @total += 1
         after = binary
 
-        @disc = Towers.diff before, after
+        @disc = self.class.diff before, after
 
-        @from = Towers.find_disc @stacks, @disc
+        @from = self.class.find_disc @stacks, @disc
         @to = self.class.find_stack stacks: @stacks, from: @from, disc: @disc, total: @total
         @stacks[@to].push @stacks[@from].pop
       end
@@ -57,6 +59,12 @@ module Hanoi
         end
       end
 
+      def clone
+        c = self.dup
+        c.stacks = self.stacks.clone.map { |s| s.clone }
+        c
+      end
+
       def to_s
         s = ''
         @stacks.each do |stack|
@@ -68,21 +76,23 @@ module Hanoi
         s
       end
 
+      def to_json
+        inspect.to_json
+      end
+
       def binary
         rebased
       end
 
       def rebased
-        Towers.rebase @total, @base, @discs
+        self.class.rebase @total, @base, @discs
       end
 
-      private
-
-      def Towers.starter_stacks discs
+      def RegularTowers.starter_stacks discs
         [(0...discs).to_a.reverse, [], []]
       end
 
-      def Towers.diff this, that
+      def RegularTowers.diff this, that
         this.chars.reverse.each_with_index do |bit, index|
           if bit < that.chars.reverse[index]
           return index
@@ -90,24 +100,16 @@ module Hanoi
         end
       end
 
-      def Towers.rebase value, base, width
+      def RegularTowers.rebase value, base, width
         '%0*d' % [width, value.to_s(base)]
       end
 
-      def Towers.find_disc stacks, disc
+      def RegularTowers.find_disc stacks, disc
         stacks.each_with_index do |stack, index|
           return index if stack.index disc
         end
 
         raise SearchException.new '%s not found in stacks' % disc
-      end
-    end
-
-    class SearchException < Exception
-      attr_reader :text
-
-      def initialize text
-        @text = text
       end
     end
   end

@@ -9,7 +9,7 @@ module Hanoi
         yield self if block_given?
 
         if @discs > @height
-          raise HanoiException.new 'number_of_discs (%d) > height (%d)' % [@height, @discs]
+          raise HanoiException.new 'number_of_discs (%d) > height (%d)' % [@discs, @height]
         end
 
         @towers = @towers.new @discs
@@ -36,24 +36,6 @@ module Hanoi
         end
 
         yield Frame.new (PaddedStacks.new @towers.stacks, @height), @towers.rebased, :key
-      end
-    end
-
-    class Frame
-      attr_reader :stacks, :type, :value
-
-      def initialize stacks, value, type
-        @stacks = stacks
-        @value = value
-        @type = type
-      end
-    end
-
-    class HanoiException < Exception
-      attr_reader :text
-
-      def initialize text
-        @text = text
       end
     end
   end

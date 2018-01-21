@@ -63,6 +63,6 @@ In order to over-engineer this, I've wrapped a [very thin Flask app](https://git
 
     hanoi phat --phat <address_of_your_pi> --interval 0.1
 
-to watch this all [play out on the pHAT](https://www.youtube.com/watch?v=PAQY5XtdNO8):
+to watch this all [play out on the pHAT](https://www.youtube.com/watch?v=LT3HNsVxhM8):
 
-[![Video](https://i.imgur.com/QILZYgx.png)](https://www.youtube.com/watch?v=PAQY5XtdNO8)
+[![Screenshot](https://i.imgur.com/yrK3isK.png)](https://www.youtube.com/watch?v=LT3HNsVxhM8)

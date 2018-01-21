@@ -1,8 +1,8 @@
 module Hanoi
   module Jane
-    class ConstrainedTowers < Towers
+    class ConstrainedTowers < RegularTowers
       extend ConstrainedStackFinder
-      
+
       def initialize discs = 3
         super
         @base = 3

@@ -15,7 +15,7 @@ module Hanoi
 
           yield self if block_given?
 
-          #populate
+          populate
         end
 
         def digits= digits
@@ -102,14 +102,6 @@ module Hanoi
 
         def Matrix.shim size
           ((5 - (size + 1)) / 2).round
-        end
-      end
-
-      class MatrixException < Exception
-        attr_reader :text
-
-        def initialize text
-          @text = text
         end
       end
     end

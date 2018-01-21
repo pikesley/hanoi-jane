@@ -10,60 +10,64 @@ module Hanoi
       map %w(-v --version) => :version
 
       desc 'phat', "Solve the towers against the pHAT's webserver"
-      option :phat, type: :string, required: true
-      option :constrained, type: :boolean
-      option :interval, type: :numeric, default: 0.1
+      option :phat, type: :string, required: true, desc: 'Address of the pHAT you want to hit'
+      option :discs, type: :numeric, default: 5, desc: 'Number of discs'
+      option :constrained, type: :boolean, desc: 'Solve the constrained variant'
+      option :interval, type: :numeric, default: 0.1, desc: 'Time between frames (ish)'
 
       def phat
-        at = AnimatedTowers.new do |a|
+        smoosher = Hanoi::Jane::Smoosher.new
+        [:close, :open].each do |direction|
+          smoosher.direction = direction
+          Hanoi::Jane.render_to_phat smoosher, options[:interval], options[:phat]
+        end
+
+        drop_in = DropIn.new do |d|
+          d.height = 7
+          d.discs = options[:discs]
+        end
+
+        towers = AnimatedTowers.new do |a|
           a.towers = ConstrainedTowers
-          a.discs = 5
+          a.discs = options[:discs]
           a.height = 7
         end
 
-        at.each do |frame|
-          Hanoi::Jane.hit_phat frame.stacks, frame.value, options[:phat]
-          interval = options[:interval]
-          if frame.type == :tween
-            interval = interval * 0.1
-          end
-          sleep interval
+        [drop_in, towers].each do |source|
+          Hanoi::Jane.render_to_phat source, options[:interval], options[:phat]
         end
       end
 
       desc 'console', 'Solve the towers on the console'
-      option :discs, type: :numeric, default: 3
-      option :constrained, type: :boolean, default: true
-      option :interval, type: :numeric, default: 0.5
-      option :height, type: :numeric, default: 2
-      option :fancy, type: :boolean, default: false
+      option :discs, type: :numeric, default: 3, desc: 'Number of discs'
+      option :constrained, type: :boolean, default: true, desc: 'Solve the constrained variant'
+      option :interval, type: :numeric, default: 0.5, desc: 'Time between frames (ish)'
+      option :height, type: :numeric, default: 2, desc: 'Additional height above towers'
+      option :fancy, type: :boolean, default: false, desc: 'Draw the towers using emojis'
 
       def console
-        at = AnimatedTowers.new do |a|
-          a.towers = options[:constrained] ? ConstrainedTowers : Towers
-          a.discs = options[:discs]
-          a.height = options[:discs] + options[:height]
-        end
-
-        at.each do |frame|
-          system('clear')
-
-          c = Formatters::Console.new do |c|
-            c.stacks = frame.stacks
-            c.fancy = options[:fancy]
+        begin
+          drop_in = DropIn.new do |d|
+            d.height = options[:discs] + options[:height]
+            d.discs = options[:discs]
           end
 
-          puts frame.value
-          puts c
-
-          interval = options[:interval]
-          if frame.type == :tween
-            interval = interval * 0.1
+          towers = AnimatedTowers.new do |a|
+            a.towers = options[:constrained] ? ConstrainedTowers : RegularTowers
+            a.discs = options[:discs]
+            a.height = options[:discs] + options[:height]
           end
-          sleep interval
-        end
 
-        puts '%d moves to solve for %d discs' % [at.towers.total, at.discs]
+          [drop_in, towers].each do |source|
+            Hanoi::Jane.render_to_console source, options[:interval], options[:fancy]
+          end
+
+          puts '%d moves to solve for %d discs' % [towers.towers.total, towers.discs]
+
+        rescue HanoiException => he
+          puts he.text
+          system('exit')
+        end
       end
     end
   end

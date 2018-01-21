@@ -2,14 +2,12 @@ chars:
   regular:
     space: ' '
     disc: 'o'
-    pole: '|'
     vert_divider: '|'
     horiz_divider: '-'
 
   fancy:
     space: ' '
     disc: '🎾'
-    pole: '💈'
     vert_divider: '🔺'
     horiz_divider: '🔻'
 
@@ -28,3 +26,6 @@ digits:
     - [1, 1, 0]
     - [0, 1, 0]
     - [0, 1, 1]
+
+animation:
+  tween-scale: 0.1

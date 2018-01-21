@@ -1,9 +1,10 @@
 module Hanoi
   module Jane
     class Dropper < Array
-      def initialize stack, item
+      def initialize stack, item, full_drop = false
         stack.map { |i| self.push i }
         @item = item
+        @full_drop = full_drop
       end
 
       def drop
@@ -16,10 +17,17 @@ module Hanoi
       end
 
       def dropped
-        (self[(Dropper.position self, @item) - 1] || self[(Dropper.position self, @item)]) || (Dropper.position self, @item) == 0
+        if @full_drop
+          return self[(Dropper.position self, @item)] || (Dropper.position self, @item) < 0
+        end
+        
+        (
+          self[(Dropper.position self, @item) - 1] ||
+          self[(Dropper.position self, @item)]
+        ) || (Dropper.position self, @item) == 0
       end
 
-      def each 
+      def each
         until dropped
           drop
           yield self

@@ -1,9 +1,9 @@
 module Hanoi
   module Jane
-    describe Towers do
+    describe RegularTowers do
       context 'follow the rules' do
         [2, 3, 4, 5, 6, 7, 8].each do |discs|
-          towers = Towers.new discs
+          towers = RegularTowers.new discs
           goal = towers.stacks[0].clone
 
           it 'plays by the rules with %s discs' % discs do
@@ -20,7 +20,7 @@ module Hanoi
       end
 
       context 'it knows when to stop' do
-        towers = Towers.new 2
+        towers = RegularTowers.new 2
 
         it 'is not done yet' do
           towers.move
