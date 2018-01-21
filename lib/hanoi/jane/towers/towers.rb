@@ -1,6 +1,8 @@
 module Hanoi
   module Jane
     class Towers
+      extend StackFinder
+
       attr_reader   :stacks, :total, :base, :disc, :from, :to
       attr_accessor :discs
 
@@ -8,14 +10,14 @@ module Hanoi
         @discs = discs
         @total = 0
         @base = 2
-        @stacks = [(0...@discs).to_a.reverse, [], []]
+        @stacks = Towers.starter_stacks @discs
 
         yield self if block_given?
       end
 
       def discs= discs
         @discs = discs
-        @stacks = [(0...@discs).to_a.reverse, [], []]
+        @stacks = Towers.starter_stacks @discs
       end
 
       def move
@@ -76,6 +78,10 @@ module Hanoi
 
       private
 
+      def Towers.starter_stacks discs
+        [(0...discs).to_a.reverse, [], []]
+      end
+
       def Towers.diff this, that
         this.chars.reverse.each_with_index do |bit, index|
           if bit < that.chars.reverse[index]
@@ -94,21 +100,6 @@ module Hanoi
         end
 
         raise SearchException.new '%s not found in stacks' % disc
-      end
-
-      def Towers.find_stack stacks:, from:, disc:, total: nil
-        # if the next stack is empty, move there
-        if stacks[(from + 1) % 3] == []
-          return (from + 1) % 3
-        end
-
-        # if the next stack has a smaller top disc than our disc, go one more over
-        if stacks[(from + 1) % 3][-1] < disc
-          return (from + 2) % 3
-        end
-
-        # default to the next one
-        return (from + 1) % 3
       end
     end
 

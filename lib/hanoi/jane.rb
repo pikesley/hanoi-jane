@@ -9,6 +9,7 @@ require 'hanoi/jane/version'
 
 require 'hanoi/jane/config'
 
+require 'hanoi/jane/towers/stack_finders'
 require 'hanoi/jane/towers/towers'
 require 'hanoi/jane/towers/constrained_towers'
 require 'hanoi/jane/towers/animated_towers'

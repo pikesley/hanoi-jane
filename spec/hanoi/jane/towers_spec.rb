@@ -13,6 +13,10 @@ module Hanoi
           end
           expect(towers.discs).to eq 4
         end
+
+        it 'makes a starter stack set' do
+          expect(Towers.starter_stacks 3).to eq [[2, 1, 0], [], []]
+        end
       end
 
       context 'find a disc' do
