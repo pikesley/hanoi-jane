@@ -3,8 +3,6 @@ module Hanoi
     class RegularTowers
       include Enumerable
 
-      extend StackFinder
-
       attr_reader   :total, :base, :disc, :from, :to, :discs
       attr_accessor :stacks
 
@@ -86,6 +84,21 @@ module Hanoi
 
       def rebased
         self.class.rebase @total, @base, @discs
+      end
+
+      def RegularTowers.find_stack stacks:, from:, disc:, total: nil
+        # if the next stack is empty, move there
+        if stacks[(from + 1) % 3] == []
+          return (from + 1) % 3
+        end
+
+        # if the next stack has a smaller top disc than our disc, go one more over
+        if stacks[(from + 1) % 3][-1] < disc
+          return (from + 2) % 3
+        end
+
+        # default to the next one
+        (from + 1) % 3
       end
 
       def RegularTowers.starter_stacks discs
