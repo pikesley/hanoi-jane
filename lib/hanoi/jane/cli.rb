@@ -5,7 +5,7 @@ module Hanoi
     class CLI < ::Thor
       desc 'version', 'Print hanoi version'
       def version
-        puts 'hanoi version #{VERSION}'
+        puts "hanoi version #{VERSION}"
       end
       map %w(-v --version) => :version
 
