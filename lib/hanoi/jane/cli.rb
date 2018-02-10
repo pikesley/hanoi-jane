@@ -16,10 +16,9 @@ module Hanoi
       option :interval, type: :numeric, default: 0.1, desc: 'Time between frames (ish)'
 
       def phat
-        smoosher = Hanoi::Jane::Smoosher.new
-        [:close, :open].each do |direction|
-          smoosher.direction = direction
-          Hanoi::Jane.render_to_phat smoosher, options[:interval], options[:phat]
+        grid = JSON.parse(HTTParty.get('http://%s/lights' % options[:phat]).body)['matrix']
+        squeegee = Wiper::Squeegee.new do |s|
+          s.grid = JSON.parse(HTTParty.get('http://%s/lights' % options[:phat]).body)['matrix'] unless grid == {}
         end
 
         drop_in = DropIn.new do |d|
@@ -33,7 +32,7 @@ module Hanoi
           a.height = 7
         end
 
-        [drop_in, towers].each do |source|
+        [squeegee, drop_in, towers].each do |source|
           Hanoi::Jane.render_to_phat source, options[:interval], options[:phat]
         end
       end

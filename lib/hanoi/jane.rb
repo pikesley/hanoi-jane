@@ -3,6 +3,7 @@ require 'yaml'
 
 require 'thor'
 require 'httparty'
+require 'wiper'
 
 require 'hanoi/jane/version'
 
