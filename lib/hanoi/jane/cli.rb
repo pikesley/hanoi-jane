@@ -18,7 +18,13 @@ module Hanoi
       def phat
         grid = JSON.parse(HTTParty.get('http://%s/lights' % options[:phat]).body)['matrix']
         squeegee = Wiper::Squeegee.new do |s|
-          s.grid = JSON.parse(HTTParty.get('http://%s/lights' % options[:phat]).body)['matrix'] unless grid == {}
+          s.grid = grid unless grid == []
+          s.interval = 0.01
+        end
+
+        squeegee.each do |frame|
+          Hanoi::Jane.hit_phat frame, options[:phat]
+          sleep frame.interval
         end
 
         drop_in = DropIn.new do |d|
@@ -32,7 +38,7 @@ module Hanoi
           a.height = 7
         end
 
-        [squeegee, drop_in, towers].each do |source|
+        [drop_in, towers].each do |source|
           Hanoi::Jane.render_to_phat source, options[:interval], options[:phat]
         end
       end
