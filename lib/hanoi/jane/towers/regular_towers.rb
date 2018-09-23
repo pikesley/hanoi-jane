@@ -136,6 +136,10 @@ module Hanoi
           Marshal.load f
         end
       end
+
+      def == other
+        self.inspect == other.inspect
+      end
     end
   end
 end

@@ -15,7 +15,6 @@ module Hanoi
 
         it 'deserialises itself' do
           t = RegularTowers.deserialise SAVE_PATH
-          require "pry" ; binding.pry
           expect(t).to eq towers
         end
       end
