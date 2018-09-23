@@ -24,9 +24,14 @@ require 'hanoi/jane/animation/smoosher'
 
 require 'hanoi/jane/formatters/matrix'
 require 'hanoi/jane/formatters/console'
+require 'hanoi/jane/formatters/github'
 
 module Hanoi
   module Jane
+    def self.render_to_github towers
+      g = Formatters::Github.new towers
+    end
+
     def self.render_to_phat source, interval, phat
       source.each do |frame|
         Hanoi::Jane.hit_phat frame.to_dots, phat

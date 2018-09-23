@@ -74,6 +74,16 @@ module Hanoi
           system('exit')
         end
       end
+
+      desc 'github', 'Render data suitable for drawing on the Github contribution graph'
+      option :discs, type: :numeric, default: 6, desc: 'Number of discs'
+
+      def github
+        towers = ConstrainedTowers.new options[:discs]
+
+        h = Hanoi::Jane.render_to_github towers
+        h.each { |r| puts r.join '' }
+      end
     end
   end
 end
