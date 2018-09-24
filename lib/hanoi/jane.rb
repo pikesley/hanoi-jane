@@ -4,6 +4,7 @@ require 'yaml'
 require 'thor'
 require 'httparty'
 require 'wiper'
+require 'gitpaint'
 
 require 'hanoi/jane/version'
 

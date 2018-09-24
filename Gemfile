@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'wiper', path: '../wiper'
+gem 'gitpaint', path: '../gitpaint'

@@ -89,7 +89,8 @@ module Hanoi
         end
 
         h = Hanoi::Jane.render_to_github towers
-        h.each { |r| puts r.join '' }
+        Gitpaint.paint h, 'towers', message: towers.ternary
+
         towers.move
         towers.serialise options[:save_path]
       end
