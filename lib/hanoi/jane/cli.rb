@@ -77,12 +77,21 @@ module Hanoi
 
       desc 'github', 'Render data suitable for drawing on the Github contribution graph'
       option :discs, type: :numeric, default: 6, desc: 'Number of discs'
+      option :save_path, type: :string, required: true, desc: 'Where to store the state between moves'
 
       def github
-        towers = ConstrainedTowers.new options[:discs]
+        begin
+          towers = ConstrainedTowers.deserialise options[:save_path]
+        rescue Errno::ENOENT => e
+          if e.message == "No such file or directory @ rb_sysopen - #{options[:save_path]}"
+            towers = ConstrainedTowers.new options[:discs]
+          end
+        end
 
         h = Hanoi::Jane.render_to_github towers
         h.each { |r| puts r.join '' }
+        towers.move
+        towers.serialise options[:save_path]
       end
     end
   end
