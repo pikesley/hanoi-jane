@@ -4,4 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'wiper', github: 'pikesley/wiper'
-gem 'gitpaint', path: '../gitpaint'
+gem 'gitpaint', github: 'pikesley/gitpaint'
