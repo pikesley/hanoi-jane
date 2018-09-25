@@ -88,8 +88,16 @@ module Hanoi
           end
         end
 
+        conf = YAML.load_file "#{ENV['HOME']}/.hanoi-jane/config.yaml"
+        Gitpaint.configure do |config|
+          config.ssh_key = conf['ssh_key']
+          config.username = conf['username']
+          config.email = conf['email']
+          config.token = conf['token']
+        end
+
         h = Hanoi::Jane.render_to_github towers
-        Gitpaint.paint h, 'towers', message: towers.ternary
+        Gitpaint.paint h, conf['repo'], message: towers.ternary
 
         towers.move
         towers.serialise options[:save_path]
