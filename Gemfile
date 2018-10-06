@@ -7,4 +7,4 @@ end
 # Specify your gem's dependencies in hanoi-jane.gemspec
 gemspec
 
-gem 'wiper', path: '../wiper'
+gem 'wiper', github: 'pikesley/wiper'
