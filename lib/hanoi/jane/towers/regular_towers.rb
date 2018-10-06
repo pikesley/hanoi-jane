@@ -124,6 +124,22 @@ module Hanoi
 
         raise SearchException.new '%s not found in stacks' % disc
       end
+
+      def serialise path
+        File.open path, 'w' do |f|
+          f.write Marshal.dump self
+        end
+      end
+
+      def RegularTowers.deserialise path
+        File.open path do |f|
+          Marshal.load f
+        end
+      end
+
+      def == other
+        self.inspect == other.inspect
+      end
     end
   end
 end
