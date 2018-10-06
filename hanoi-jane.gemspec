@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'httparty', '~> 0.15'
   spec.add_dependency 'wiper'
+  spec.add_dependency 'gitpaint'
 end

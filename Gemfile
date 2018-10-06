@@ -8,3 +8,4 @@ end
 gemspec
 
 gem 'wiper', github: 'pikesley/wiper'
+gem 'gitpaint', github: 'pikesley/gitpaint'
