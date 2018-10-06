@@ -52,12 +52,6 @@ module Hanoi
           end
         end
 
-        it 'scales a size' do
-          expect(Console.scale 0).to eq 1
-          expect(Console.scale 1).to eq 3
-          expect(Console.scale 2).to eq 5
-        end
-
         context 'assemble layout' do
           it 'finds the largest member of a stack set' do
             expect(Console.biggest [[2, 1], [0, nil], [nil, nil]]).to eq 2

@@ -40,9 +40,9 @@ module Hanoi
         end
 
         def Console.disc size, width
-          return [:space] * Console.scale(width) unless size
-          content = Console.scale size
-          gap = (Console.scale(width) - content) / 2
+          return [:space] * Hanoi::Jane.scale(width) unless size
+          content = Hanoi::Jane.scale size
+          gap = (Hanoi::Jane.scale(width) - content) / 2
 
           output = [:disc] * content
 
@@ -65,11 +65,7 @@ module Hanoi
             [d, filler]
           }.unshift(filler).flatten
         end
-
-        def Console.scale size
-          (size * 2) + 1
-        end
-
+        
         def Console.rotate stacks
           stacks.map { |s| s.clone }.transpose.reverse
         end
