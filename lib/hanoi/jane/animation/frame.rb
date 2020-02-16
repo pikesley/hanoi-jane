@@ -15,6 +15,12 @@ module Hanoi
           m.digits = @value
         end
       end
+
+      def to_longruner disc_colour, pole_colour
+        Formatters::Longruner.new do |l|
+          l.stacks = @stacks
+        end.colourised disc_colour, pole_colour
+      end
     end
   end
 end
