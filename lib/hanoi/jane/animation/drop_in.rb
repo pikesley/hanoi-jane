@@ -38,6 +38,12 @@ module Hanoi
           m.digits = '0' * (@discs - @disc)
         end
       end
+
+      def to_longruner disc_colour, pole_colour
+        Formatters::Longruner.new do |m|
+          m.stacks = @stacks
+        end.colourised disc_colour, pole_colour
+      end
     end
   end
 end

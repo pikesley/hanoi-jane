@@ -24,6 +24,7 @@ require 'hanoi/jane/animation/drop_in'
 require 'hanoi/jane/animation/smoosher'
 
 require 'hanoi/jane/formatters/matrix'
+require 'hanoi/jane/formatters/longruner'
 require 'hanoi/jane/formatters/console'
 require 'hanoi/jane/formatters/github'
 
@@ -42,6 +43,28 @@ module Hanoi
 
     def self.hit_phat grid, phat
       url = "http://#{phat}/lights"
+      payload = {
+        matrix: grid
+      }
+      headers = {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+
+      HTTParty.patch(url, body: payload.to_json, headers: headers)
+    end
+
+    def self.render_to_shoba source, interval, shoba, disc_colour, pole_colour
+      source.each do |frame|
+        runer = frame.to_longruner disc_colour, pole_colour
+
+        Hanoi::Jane.hit_shoba runer, shoba
+        sleep interval * interval_factor(frame)
+      end
+    end
+
+    def self.hit_shoba grid, shoba
+      url = "http://#{shoba}/matrix"
       payload = {
         matrix: grid
       }
